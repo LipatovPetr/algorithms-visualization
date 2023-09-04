@@ -1,0 +1,9 @@
+.inputContainer {
+  margin: auto;
+  max-width: 522px;
+  display: flex;
+}
+
+.stringButton {
+  margin-left: 12px;
+}
