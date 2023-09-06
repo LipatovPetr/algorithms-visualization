@@ -35,9 +35,7 @@ export const StringComponent: React.FC = () => {
 
       // swap changing elements
       swapChars(processedString, i, len - 1 - i);
-      setMappedString([...processedString]);
-
-      await delay(DELAY_IN_MS);
+      // setMappedString([...processedString]);
 
       // highlight successfully changed elements
       processedString[i].state = ElementStates.Modified;
