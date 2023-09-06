@@ -35,7 +35,6 @@ export const StringComponent: React.FC = () => {
 
       // swap changing elements
       swapChars(processedString, i, len - 1 - i);
-      // setMappedString([...processedString]);
 
       // highlight successfully changed elements
       processedString[i].state = ElementStates.Modified;
@@ -54,18 +53,24 @@ export const StringComponent: React.FC = () => {
   return (
     <SolutionLayout title="Строка">
       <form className={styles.form} onSubmit={handleSubmit}>
-        <Input
-          name="string"
-          value={values.string || ""}
-          onChange={handleChange}
-          maxLength={MAX_LENGTH}
-        />
+        <div>
+          <Input
+            name="string"
+            value={values.string || ""}
+            onChange={handleChange}
+            maxLength={MAX_LENGTH}
+          />
+          <p
+            className={styles.caption}
+          >{`Максимум — ${MAX_LENGTH} символов`}</p>
+        </div>
         <Button
           type="submit"
           extraClass={styles.submitButton}
           text="Развернуть"
         />
       </form>
+
       <div className={styles.circlesContainer}>
         {mappedString &&
           mappedString.map((el, index) => (

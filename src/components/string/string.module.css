@@ -14,3 +14,12 @@
   margin-top: 40px;
   justify-content: center;
 }
+
+.caption {
+  margin: 0;
+  margin-top: 4px;
+  margin-left: 16px;
+  font-size: 14px;
+  text-align: left;
+  color: var(--colors-gray-24, #3d3d3d);
+}
