@@ -1,9 +1,16 @@
-.inputContainer {
+.form {
   margin: auto;
   max-width: 522px;
   display: flex;
 }
 
-.stringButton {
+.submitButton {
   margin-left: 12px;
+}
+
+.circlesContainer {
+  display: flex;
+  margin: auto;
+  margin-top: 40px;
+  justify-content: center;
 }
