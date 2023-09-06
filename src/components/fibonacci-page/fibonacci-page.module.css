@@ -1,0 +1,22 @@
+.form {
+  margin: auto;
+  max-width: 567px;
+  display: flex;
+}
+
+.inputContainer {
+  width: 100%;
+}
+
+.submitButton {
+  margin-left: 12px;
+}
+
+.caption {
+  margin: 0;
+  margin-top: 4px;
+  margin-left: 16px;
+  font-size: 14px;
+  text-align: left;
+  color: var(--colors-gray-24, #3d3d3d);
+}
