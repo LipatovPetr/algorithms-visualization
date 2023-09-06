@@ -15,10 +15,6 @@ export const FibonacciPage: React.FC = () => {
   const { handleChange, values } = useFormInputs();
   const [fibArray, setFibArray] = useState<number[]>([]);
 
-  // useEffect(() => {
-  //   console.log(fibArray);
-  // }, [fibArray]);
-
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     generateFibonacciSequence(Number(values.value));
@@ -28,9 +24,7 @@ export const FibonacciPage: React.FC = () => {
     if (num < 2) {
       return num;
     }
-
     const fibValue = calculateFibonacci(num - 1) + calculateFibonacci(num - 2);
-
     return fibValue;
   }
 
@@ -42,7 +36,7 @@ export const FibonacciPage: React.FC = () => {
       sequence.push(fibValue);
       console.log(sequence);
       setFibArray([...sequence]);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await delay(DELAY_IN_MS);
     }
   };
 
