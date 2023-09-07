@@ -16,7 +16,7 @@ export const SortingPage: React.FC = () => {
         </div>
 
         <div className={styles.filtersContainer}>
-          <Button text={"По возрастанию"} sorting={Direction.Descending} />
+          <Button text={"По возрастанию"} sorting={Direction.Ascending} />
           <Button text={"По убыванию"} sorting={Direction.Descending} />
         </div>
 
