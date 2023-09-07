@@ -7,7 +7,7 @@ import { MAX_VALUE } from "./constants";
 import { useFormInputs } from "../hooks/useForm";
 import { Circle } from "../ui/circle/circle";
 import { delay } from "../../utils";
-import { DELAY_IN_MS } from "../../constants/delays";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 const arr: number[] = [];
 
@@ -36,7 +36,7 @@ export const FibonacciPage: React.FC = () => {
       sequence.push(fibValue);
       console.log(sequence);
       setFibArray([...sequence]);
-      await delay(DELAY_IN_MS);
+      await delay(SHORT_DELAY_IN_MS);
     }
   };
 
