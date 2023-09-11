@@ -34,7 +34,6 @@ export const FibonacciPage: React.FC = () => {
     for (let i = 0; i <= length; i++) {
       const fibValue = await calculateFibonacci(i);
       sequence.push(fibValue);
-      console.log(sequence);
       setFibArray([...sequence]);
       await delay(SHORT_DELAY_IN_MS);
     }

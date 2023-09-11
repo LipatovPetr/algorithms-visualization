@@ -1,13 +1,8 @@
 import React, { FormEvent, useState } from "react";
 import styles from "./string.module.css";
 import { stringMappedToCharsWithState } from "./types";
-import {
-  mapStringToArray,
-  swapChars,
-} from "../../utils/helpers/string.helpers";
+import { mapStringToArray, reverseString, swapChars } from "./algorithm";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import { delay } from "../../utils";
-
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { useFormInputs } from "../hooks/useForm";
@@ -21,33 +16,9 @@ export const StringComponent: React.FC = () => {
     useState<stringMappedToCharsWithState>([]);
   const { handleChange, values } = useFormInputs();
 
-  async function reverseString() {
-    let processedString = mapStringToArray(values.string);
-    const len = processedString.length;
-
-    for (let i = 0; i < len / 2; i++) {
-      // highlight changing elements
-      processedString[i].state = ElementStates.Changing;
-      processedString[len - 1 - i].state = ElementStates.Changing;
-      setMappedString([...processedString]);
-
-      await delay(DELAY_IN_MS);
-
-      // swap changing elements
-      swapChars(processedString, i, len - 1 - i);
-
-      // highlight successfully changed elements
-      processedString[i].state = ElementStates.Modified;
-      processedString[len - 1 - i].state = ElementStates.Modified;
-      setMappedString([...processedString]);
-
-      await delay(DELAY_IN_MS);
-    }
-  }
-
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    reverseString();
+    reverseString(values.string, setMappedString, DELAY_IN_MS);
   }
 
   return (
