@@ -2,11 +2,21 @@ import { delay } from "../../utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { Dispatch, SetStateAction } from "react";
 
+const memo = new Map();
+
 function calculateFibonacci(num: number): number {
   if (num < 2) {
     return num;
   }
+
+  if (memo.has(num)) {
+    return memo.get(num);
+  }
+
   const fibValue = calculateFibonacci(num - 1) + calculateFibonacci(num - 2);
+
+  memo.set(num, fibValue);
+
   return fibValue;
 }
 
