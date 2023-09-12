@@ -5,18 +5,16 @@ import { Dispatch, SetStateAction } from "react";
 const memo = new Map();
 
 function calculateFibonacci(num: number): number {
-  if (num < 2) {
-    return num;
-  }
-
   if (memo.has(num)) {
     return memo.get(num);
   }
 
+  if (num < 2) {
+    return num;
+  }
+
   const fibValue = calculateFibonacci(num - 1) + calculateFibonacci(num - 2);
-
   memo.set(num, fibValue);
-
   return fibValue;
 }
 
