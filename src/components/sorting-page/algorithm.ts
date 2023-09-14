@@ -3,7 +3,7 @@ import { ElementStates } from "../../types/element-states";
 import { delay } from "../../utils";
 import { Dispatch, SetStateAction } from "react";
 
-import { arrayElementWithState } from "./Types";
+import { elementWithState } from "./Types";
 
 // func to generate random arr
 
@@ -34,11 +34,36 @@ export function mapArray(arr: number[]) {
 
 // select sort algo
 
+const updateState = (
+  callback: Dispatch<SetStateAction<Array<elementWithState>>>,
+  arr: Array<elementWithState>
+) => {
+  callback([...arr]);
+};
+
+const updateElementColorInCopy = (
+  arr: Array<elementWithState>,
+  index: number,
+  colorState: "default" | "changing" | "modified"
+) => {
+  switch (colorState) {
+    case "default":
+      arr[index].state = ElementStates.Default;
+      break;
+    case "changing":
+      arr[index].state = ElementStates.Changing;
+      break;
+    case "modified":
+      arr[index].state = ElementStates.Modified;
+      break;
+  }
+};
+
 export async function selectSort(
-  arr: arrayElementWithState[],
-  stateSetter: Dispatch<SetStateAction<arrayElementWithState[]>>,
+  arr: Array<elementWithState>,
+  stateSetter: Dispatch<SetStateAction<Array<elementWithState>>>,
   delayValue: number,
-  asc: Boolean
+  sortingOrder: "asc" | "desc"
 ) {
   const arrayCopy = [...arr];
   const len = arrayCopy.length;
@@ -46,24 +71,25 @@ export async function selectSort(
   for (let i = 0; i < len; i++) {
     let indexOfMin = i;
 
-    arrayCopy[i].state = ElementStates.Changing;
-    stateSetter([...arrayCopy]);
+    updateElementColorInCopy(arrayCopy, i, "changing");
+    updateState(stateSetter, arrayCopy);
 
     for (let j = i + 1; j < len; j++) {
-      arrayCopy[j].state = ElementStates.Changing;
-      stateSetter([...arrayCopy]);
+      updateElementColorInCopy(arrayCopy, j, "changing");
+      updateState(stateSetter, arrayCopy);
       await delay(delayValue);
 
-      if (
-        asc
-          ? arrayCopy[indexOfMin].value < arrayCopy[j].value
-          : arrayCopy[indexOfMin].value > arrayCopy[j].value
-      ) {
+      const isAscending =
+        sortingOrder === "asc"
+          ? arrayCopy[indexOfMin].value > arrayCopy[j].value
+          : arrayCopy[indexOfMin].value < arrayCopy[j].value;
+
+      if (isAscending) {
         indexOfMin = j;
       }
 
-      arrayCopy[j].state = ElementStates.Default;
-      stateSetter([...arrayCopy]);
+      updateElementColorInCopy(arrayCopy, j, "default");
+      updateState(stateSetter, arrayCopy);
     }
 
     if (indexOfMin !== i) {
@@ -71,8 +97,7 @@ export async function selectSort(
       arrayCopy[indexOfMin].value = arrayCopy[i].value;
       arrayCopy[i].value = temp;
     }
-
-    arrayCopy[i].state = ElementStates.Modified;
-    stateSetter([...arrayCopy]);
+    updateElementColorInCopy(arrayCopy, i, "modified");
+    updateState(stateSetter, arrayCopy);
   }
 }

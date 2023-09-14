@@ -6,13 +6,13 @@ import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 import { generateRandomArray, mapArray, selectSort } from "./algorithm";
-import { arrayElementWithState } from "./Types";
+import { elementWithState } from "./Types";
 import { delay } from "../../utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const SortingPage: React.FC = () => {
   const [sortingOption, setSortingOption] = useState("Select");
-  const [sortedArray, setSortedArray] = useState<arrayElementWithState[]>([]);
+  const [sortedArray, setSortedArray] = useState<Array<elementWithState>>([]);
 
   useEffect(function generateArrayOnLoad() {
     const randomArray = generateRandomArray();
@@ -55,14 +55,19 @@ export const SortingPage: React.FC = () => {
             text={"По возрастанию"}
             sorting={Direction.Ascending}
             onClick={() => {
-              selectSort(sortedArray, setSortedArray, SHORT_DELAY_IN_MS, false);
+              selectSort(sortedArray, setSortedArray, SHORT_DELAY_IN_MS, "asc");
             }}
           />
           <Button
             text={"По убыванию"}
             sorting={Direction.Descending}
             onClick={() => {
-              selectSort(sortedArray, setSortedArray, SHORT_DELAY_IN_MS, true);
+              selectSort(
+                sortedArray,
+                setSortedArray,
+                SHORT_DELAY_IN_MS,
+                "desc"
+              );
             }}
           />
         </div>
