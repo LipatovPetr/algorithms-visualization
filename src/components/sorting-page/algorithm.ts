@@ -37,7 +37,8 @@ export function mapArray(arr: number[]) {
 export async function selectSort(
   arr: arrayElementWithState[],
   stateSetter: Dispatch<SetStateAction<arrayElementWithState[]>>,
-  delayValue: number
+  delayValue: number,
+  asc: Boolean
 ) {
   const arrayCopy = [...arr];
   const len = arrayCopy.length;
@@ -53,7 +54,11 @@ export async function selectSort(
       stateSetter([...arrayCopy]);
       await delay(delayValue);
 
-      if (arrayCopy[indexOfMin].value < arrayCopy[j].value) {
+      if (
+        asc
+          ? arrayCopy[indexOfMin].value < arrayCopy[j].value
+          : arrayCopy[indexOfMin].value > arrayCopy[j].value
+      ) {
         indexOfMin = j;
       }
 

@@ -55,10 +55,16 @@ export const SortingPage: React.FC = () => {
             text={"По возрастанию"}
             sorting={Direction.Ascending}
             onClick={() => {
-              selectSort(sortedArray, setSortedArray, SHORT_DELAY_IN_MS);
+              selectSort(sortedArray, setSortedArray, SHORT_DELAY_IN_MS, false);
             }}
           />
-          <Button text={"По убыванию"} sorting={Direction.Descending} />
+          <Button
+            text={"По убыванию"}
+            sorting={Direction.Descending}
+            onClick={() => {
+              selectSort(sortedArray, setSortedArray, SHORT_DELAY_IN_MS, true);
+            }}
+          />
         </div>
 
         <Button text={"Новый массив"} onClick={handleGenerateNewArrayClick} />
