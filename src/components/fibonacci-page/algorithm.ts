@@ -18,7 +18,7 @@ function cacheDecorator(func: (arg: number) => number) {
   };
 }
 
-// calculateNthFibonacciValue - calculates n-th value if fibanocci sequence
+// calculateNthFibValue - calculates n-th value if fibanocci sequence
 
 function calculateNthFibValue(num: number): number {
   if (num < 2) {
@@ -29,9 +29,9 @@ function calculateNthFibValue(num: number): number {
   return fibValue;
 }
 
-const calculateNthFibValueCached = cacheDecorator(calculateNthFibValue);
+// generateFibonacciSequence - creates a fibanocci sequence by using calculateNthFibValueCached in a loop
 
-// generateFibonacciSequence - creates a fibanocci sequence by using calculateFibonacci in a loop
+const calculateNthFibValueCached = cacheDecorator(calculateNthFibValue);
 
 export async function generateFibonacciSequence(
   length: number,
