@@ -5,12 +5,14 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
-import { generateRandomArray, mapArray } from "./algorithm";
+import { generateRandomArray, mapArray, selectSort } from "./algorithm";
 import { arrayElementWithState } from "./Types";
+import { delay } from "../../utils";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const SortingPage: React.FC = () => {
   const [sortingOption, setSortingOption] = useState("Select");
-  const [sortedArray, setSortedArray] = useState<arrayElementWithState[]>();
+  const [sortedArray, setSortedArray] = useState<arrayElementWithState[]>([]);
 
   useEffect(function generateArrayOnLoad() {
     const randomArray = generateRandomArray();
@@ -27,25 +29,6 @@ export const SortingPage: React.FC = () => {
   const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSortingOption(e.target.value);
   };
-
-  function selectSort(arr: arrayElementWithState[]) {
-    const arrayCopy = [...arr];
-
-    const len = arrayCopy.length;
-
-    for (let i = 0; i < len; i++) {
-      let indexOfMin = i;
-      for (let j = i + 1; j < len; j++) {
-        if (arrayCopy[indexOfMin].value > arrayCopy[j].value) indexOfMin = j;
-      }
-      if (indexOfMin !== i) {
-        const temp = arrayCopy[indexOfMin].value;
-        arrayCopy[indexOfMin].value = arrayCopy[i].value;
-        arrayCopy[i].value = temp;
-      }
-    }
-    setSortedArray(arrayCopy);
-  }
 
   return (
     <SolutionLayout title="Сортировка массива">
@@ -72,7 +55,7 @@ export const SortingPage: React.FC = () => {
             text={"По возрастанию"}
             sorting={Direction.Ascending}
             onClick={() => {
-              selectSort(sortedArray!);
+              selectSort(sortedArray, setSortedArray, SHORT_DELAY_IN_MS);
             }}
           />
           <Button text={"По убыванию"} sorting={Direction.Descending} />
@@ -82,7 +65,9 @@ export const SortingPage: React.FC = () => {
       </div>
       <div className={styles.graphContainer}>
         {sortedArray &&
-          sortedArray.map((el) => <Column index={el.value} key={el.id} />)}
+          sortedArray.map((el) => (
+            <Column index={el.value} state={el.state} key={el.id} />
+          ))}
       </div>
     </SolutionLayout>
   );

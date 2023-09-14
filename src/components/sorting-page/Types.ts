@@ -1,5 +1,7 @@
+import { ElementStates } from "../../types/element-states";
+
 export type arrayElementWithState = {
   value: number;
-  state: string;
+  state: ElementStates;
   id: string;
 };
