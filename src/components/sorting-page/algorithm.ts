@@ -59,6 +59,23 @@ const updateElementColorInCopy = (
   }
 };
 
+const sortingCondition = (
+  arr: Array<elementWithState>,
+  indexOfMin: number,
+  j: number,
+  sortingOrder: "asc" | "desc"
+) => {
+  return sortingOrder === "asc"
+    ? arr[indexOfMin].value > arr[j].value
+    : arr[indexOfMin].value < arr[j].value;
+};
+
+const swap = (arr: Array<elementWithState>, index1: number, index2: number) => {
+  const temp = arr[index1].value;
+  arr[index1].value = arr[index2].value;
+  arr[index2].value = temp;
+};
+
 export async function selectSort(
   arr: Array<elementWithState>,
   stateSetter: Dispatch<SetStateAction<Array<elementWithState>>>,
@@ -79,12 +96,7 @@ export async function selectSort(
       updateState(stateSetter, arrayCopy);
       await delay(delayValue);
 
-      const isAscending =
-        sortingOrder === "asc"
-          ? arrayCopy[indexOfMin].value > arrayCopy[j].value
-          : arrayCopy[indexOfMin].value < arrayCopy[j].value;
-
-      if (isAscending) {
+      if (sortingCondition(arrayCopy, indexOfMin, j, sortingOrder)) {
         indexOfMin = j;
       }
 
@@ -93,9 +105,7 @@ export async function selectSort(
     }
 
     if (indexOfMin !== i) {
-      const temp = arrayCopy[indexOfMin].value;
-      arrayCopy[indexOfMin].value = arrayCopy[i].value;
-      arrayCopy[i].value = temp;
+      swap(arrayCopy, indexOfMin, i);
     }
     updateElementColorInCopy(arrayCopy, i, "modified");
     updateState(stateSetter, arrayCopy);
