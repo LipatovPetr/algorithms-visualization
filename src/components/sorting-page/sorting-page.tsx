@@ -60,7 +60,7 @@ export const SortingPage: React.FC = () => {
             text={"По возрастанию"}
             sorting={Direction.Ascending}
             onClick={() => {
-              bubbleSort(sortedArray, setSortedArray, 400);
+              bubbleSort(sortedArray, setSortedArray, 100, "desc");
             }}
           />
           <Button
