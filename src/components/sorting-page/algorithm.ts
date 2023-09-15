@@ -34,13 +34,6 @@ export function mapArray(arr: number[]) {
 
 // select sort algo
 
-const updateState = (
-  callback: Dispatch<SetStateAction<Array<elementWithState>>>,
-  arr: Array<elementWithState>
-) => {
-  callback([...arr]);
-};
-
 const updateElementColorInCopy = (
   arr: Array<elementWithState>,
   index: number,
@@ -57,6 +50,13 @@ const updateElementColorInCopy = (
       arr[index].state = ElementStates.Modified;
       break;
   }
+};
+
+const updateState = (
+  callback: Dispatch<SetStateAction<Array<elementWithState>>>,
+  arr: Array<elementWithState>
+) => {
+  callback([...arr]);
 };
 
 const sortingCondition = (
@@ -110,4 +110,36 @@ export async function selectSort(
     updateElementColorInCopy(arrayCopy, i, "modified");
     updateState(stateSetter, arrayCopy);
   }
+}
+
+export async function bubbleSort(
+  arr: Array<elementWithState>,
+  stateSetter: Dispatch<SetStateAction<Array<elementWithState>>>,
+  delayValue: number
+) {
+  const arrayCopy = [...arr];
+  const len = arr.length;
+
+  for (let i = 0; i < len - 1; i++) {
+    for (let j = 0; j < len - i - 1; j++) {
+      if (arrayCopy[j].value > arrayCopy[j + 1].value) {
+        updateElementColorInCopy(arrayCopy, j, "changing");
+        updateElementColorInCopy(arrayCopy, j + 1, "changing");
+        updateState(stateSetter, arrayCopy);
+        await delay(delayValue);
+
+        const temp = arrayCopy[j];
+        arrayCopy[j] = arrayCopy[j + 1];
+        arrayCopy[j + 1] = temp;
+        updateElementColorInCopy(arrayCopy, j, "default");
+        updateElementColorInCopy(arrayCopy, j + 1, "default");
+        updateState(stateSetter, arrayCopy);
+      }
+    }
+    updateElementColorInCopy(arrayCopy, len - i - 1, "modified");
+    updateState(stateSetter, arrayCopy);
+    await delay(delayValue);
+  }
+  updateElementColorInCopy(arrayCopy, 0, "modified");
+  updateState(stateSetter, arrayCopy);
 }

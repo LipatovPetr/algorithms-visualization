@@ -5,7 +5,12 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
-import { generateRandomArray, mapArray, selectSort } from "./algorithm";
+import {
+  generateRandomArray,
+  mapArray,
+  selectSort,
+  bubbleSort,
+} from "./algorithm";
 import { elementWithState } from "./Types";
 import { delay } from "../../utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
@@ -55,7 +60,7 @@ export const SortingPage: React.FC = () => {
             text={"По возрастанию"}
             sorting={Direction.Ascending}
             onClick={() => {
-              selectSort(sortedArray, setSortedArray, 100, "asc");
+              bubbleSort(sortedArray, setSortedArray, 400);
             }}
           />
           <Button
