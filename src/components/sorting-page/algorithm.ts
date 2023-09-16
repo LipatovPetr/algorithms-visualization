@@ -1,40 +1,12 @@
-import { nanoid } from "nanoid";
 import { ElementStates } from "../../types/element-states";
 import { delay } from "../../utils";
 import { Dispatch, SetStateAction } from "react";
 
 import { elementWithState } from "./Types";
 
-// func to generate random arr
+// helpers used in both algos
 
-export function generateRandomArray() {
-  const minLength = 3;
-  const maxLength = 17;
-
-  const randomArray = [];
-  const length =
-    Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
-
-  for (let i = 0; i < length; i++) {
-    randomArray.push(Math.floor(Math.random() * 101));
-  }
-
-  return randomArray;
-}
-
-// func to map random arr to arr with state and ids
-
-export function mapArray(arr: number[]) {
-  return arr.map((el) => ({
-    value: el,
-    state: ElementStates.Default,
-    id: nanoid(5),
-  }));
-}
-
-// helpers for both algos
-
-const updateElementColorState = (
+const updateElementColor = (
   arr: Array<elementWithState>,
   index: number,
   colorState: "default" | "changing" | "modified"
@@ -90,11 +62,11 @@ export async function selectSort(
   for (let i = 0; i < len; i++) {
     let indexOfMin = i;
 
-    updateElementColorState(arrayCopy, i, "changing");
+    updateElementColor(arrayCopy, i, "changing");
     updateState(stateSetter, arrayCopy);
 
     for (let j = i + 1; j < len; j++) {
-      updateElementColorState(arrayCopy, j, "changing");
+      updateElementColor(arrayCopy, j, "changing");
       updateState(stateSetter, arrayCopy);
       await delay(delayValue);
 
@@ -102,14 +74,14 @@ export async function selectSort(
         indexOfMin = j;
       }
 
-      updateElementColorState(arrayCopy, j, "default");
+      updateElementColor(arrayCopy, j, "default");
       updateState(stateSetter, arrayCopy);
     }
 
     if (indexOfMin !== i) {
       swap(arrayCopy, indexOfMin, i);
     }
-    updateElementColorState(arrayCopy, i, "modified");
+    updateElementColor(arrayCopy, i, "modified");
     updateState(stateSetter, arrayCopy);
   }
 }
@@ -128,21 +100,21 @@ export async function bubbleSort(
   for (let i = 0; i < len - 1; i++) {
     for (let j = 0; j < len - i - 1; j++) {
       if (sortingCondition(arrayCopy, j, j + 1, sortingOrder)) {
-        updateElementColorState(arrayCopy, j, "changing");
-        updateElementColorState(arrayCopy, j + 1, "changing");
+        updateElementColor(arrayCopy, j, "changing");
+        updateElementColor(arrayCopy, j + 1, "changing");
         updateState(stateSetter, arrayCopy);
         await delay(delayValue);
 
         swap(arrayCopy, j, j + 1);
 
-        updateElementColorState(arrayCopy, j, "default");
-        updateElementColorState(arrayCopy, j + 1, "default");
+        updateElementColor(arrayCopy, j, "default");
+        updateElementColor(arrayCopy, j + 1, "default");
         updateState(stateSetter, arrayCopy);
       }
     }
-    updateElementColorState(arrayCopy, len - i - 1, "modified");
+    updateElementColor(arrayCopy, len - i - 1, "modified");
     updateState(stateSetter, arrayCopy);
   }
-  updateElementColorState(arrayCopy, 0, "modified");
+  updateElementColor(arrayCopy, 0, "modified");
   updateState(stateSetter, arrayCopy);
 }

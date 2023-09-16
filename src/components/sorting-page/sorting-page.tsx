@@ -8,11 +8,10 @@ import { Column } from "../ui/column/column";
 import {
   generateRandomArray,
   mapArray,
-  selectSort,
-  bubbleSort,
-} from "./algorithm";
+} from "../../utils/helpers/sorting.helpers";
+import { selectSort, bubbleSort } from "./algorithm";
 import { elementWithState } from "./Types";
-import { delay } from "../../utils";
+
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const SortingPage: React.FC = () => {
@@ -60,7 +59,7 @@ export const SortingPage: React.FC = () => {
             text={"По возрастанию"}
             sorting={Direction.Ascending}
             onClick={() => {
-              bubbleSort(sortedArray, setSortedArray, 100, "desc");
+              bubbleSort(sortedArray, setSortedArray, 100, "asc");
             }}
           />
           <Button
