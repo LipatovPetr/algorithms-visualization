@@ -25,6 +25,11 @@ export const StackPage: React.FC = () => {
     setStackArray([...stack.getStack()]);
   }
 
+  function handleClear() {
+    stack.clear();
+    setStackArray([...stack.getStack()]);
+  }
+
   return (
     <SolutionLayout title="Стек">
       <form onSubmit={handleSubmit} className={styles.inputsContainer}>
@@ -43,7 +48,7 @@ export const StackPage: React.FC = () => {
           <Button text={"Добавить"} type="submit" />
           <Button text={"Удалить"} onClick={handleDelete} />
         </div>
-        <Button text={"Очистить"} />
+        <Button text={"Очистить"} onClick={handleClear} />
       </form>
       <div className={styles.stackContainer}>
         {stackArray &&
