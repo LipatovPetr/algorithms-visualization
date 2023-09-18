@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, MouseEventHandler } from "react";
 import styles from "./stack-page.module.css";
 import { Button } from "../ui/button/button";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
@@ -6,6 +6,7 @@ import { Input } from "../ui/input/input";
 import { useFormInputs } from "../hooks/useForm";
 import { stack } from "./algorithm";
 import { Circle } from "../ui/circle/circle";
+import { MAX_LENGTH } from "./constants";
 
 export const StackPage: React.FC = () => {
   const { handleChange, values } = useFormInputs();
@@ -16,25 +17,43 @@ export const StackPage: React.FC = () => {
     stack.push(values.stackElement);
 
     setStackArray([...stack.getStack()]);
+    values.stackElement = "";
+  }
+
+  function handleDelete() {
+    stack.pop();
+    setStackArray([...stack.getStack()]);
   }
 
   return (
     <SolutionLayout title="Стек">
       <form onSubmit={handleSubmit} className={styles.inputsContainer}>
         <div className={styles.innerContainer}>
-          <Input
-            name="stackElement"
-            value={values.stackElement || ""}
-            onChange={handleChange}
-          />
-          <Button type="submit" text={"Добавить"} />
-          <Button text={"Удалить"} />
+          <div>
+            <Input
+              name="stackElement"
+              maxLength={MAX_LENGTH}
+              value={values.stackElement || ""}
+              onChange={handleChange}
+            />
+            <p
+              className={styles.caption}
+            >{`Максимум — ${MAX_LENGTH} символов`}</p>
+          </div>
+          <Button text={"Добавить"} type="submit" />
+          <Button text={"Удалить"} onClick={handleDelete} />
         </div>
         <Button text={"Очистить"} />
       </form>
       <div className={styles.stackContainer}>
         {stackArray &&
-          stackArray.map((el, index) => <Circle letter={el} index={index} />)}
+          stackArray.map((el, index) => (
+            <Circle
+              letter={el}
+              index={index}
+              head={index === stackArray.length - 1 ? "top" : null}
+            />
+          ))}
       </div>
     </SolutionLayout>
   );
