@@ -46,7 +46,11 @@ export const StackPage: React.FC = () => {
               className={styles.caption}
             >{`Максимум — ${MAX_LENGTH} символов`}</p>
           </div>
-          <Button text={"Добавить"} type="submit" />
+          <Button
+            text={"Добавить"}
+            type="submit"
+            disabled={values.stackElement ? false : true}
+          />
           <Button text={"Удалить"} onClick={handleDelete} />
         </div>
         <Button text={"Очистить"} onClick={handleClear} />
