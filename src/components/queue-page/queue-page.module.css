@@ -9,3 +9,10 @@
   display: flex;
   gap: 12px;
 }
+
+.queueContainer {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
