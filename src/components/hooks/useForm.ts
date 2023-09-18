@@ -8,6 +8,7 @@ export function useFormInputs(inputValues = {}) {
   const [values, setValues] = useState<FormState>(inputValues);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target);
     const { value, name } = event.target;
     setValues({ ...values, [name]: value });
   };

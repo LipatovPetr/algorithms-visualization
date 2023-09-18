@@ -7,7 +7,7 @@ interface IStack<T> {
   clear: () => void;
 }
 
-export class Stack<T> implements IStack<T> {
+class Stack<T> implements IStack<T> {
   private container: T[] = [];
 
   push = (item: T): void => {
@@ -40,3 +40,5 @@ export class Stack<T> implements IStack<T> {
     this.container = [];
   };
 }
+
+export const stack = new Stack<string>();

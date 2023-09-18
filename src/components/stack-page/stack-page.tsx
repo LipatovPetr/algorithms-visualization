@@ -4,14 +4,18 @@ import { Button } from "../ui/button/button";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { useFormInputs } from "../hooks/useForm";
+import { stack } from "./algorithm";
+import { Circle } from "../ui/circle/circle";
 
 export const StackPage: React.FC = () => {
   const { handleChange, values } = useFormInputs();
-  const [stack, setStack] = useState();
+  const [stackArray, setStackArray] = useState<string[]>();
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(values.stackElement);
+    stack.push(values.stackElement);
+
+    setStackArray([...stack.getStack()]);
   }
 
   return (
@@ -28,6 +32,10 @@ export const StackPage: React.FC = () => {
         </div>
         <Button text={"Очистить"} />
       </form>
+      <div className={styles.stackContainer}>
+        {stackArray &&
+          stackArray.map((el, index) => <Circle letter={el} index={index} />)}
+      </div>
     </SolutionLayout>
   );
 };

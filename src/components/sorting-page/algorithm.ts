@@ -31,7 +31,11 @@ const updateState = (
   callback([...arr]);
 };
 
-const swap = (arr: Array<elementWithState>, index1: number, index2: number) => {
+const swapElements = (
+  arr: Array<elementWithState>,
+  index1: number,
+  index2: number
+) => {
   const temp = arr[index1].value;
   arr[index1].value = arr[index2].value;
   arr[index2].value = temp;
@@ -79,7 +83,7 @@ export async function selectSort(
     }
 
     if (indexOfMin !== i) {
-      swap(arrayCopy, indexOfMin, i);
+      swapElements(arrayCopy, indexOfMin, i);
     }
     updateElementColor(arrayCopy, i, "modified");
     updateState(stateSetter, arrayCopy);
@@ -105,7 +109,7 @@ export async function bubbleSort(
         updateState(stateSetter, arrayCopy);
         await delay(delayValue);
 
-        swap(arrayCopy, j, j + 1);
+        swapElements(arrayCopy, j, j + 1);
 
         updateElementColor(arrayCopy, j, "default");
         updateElementColor(arrayCopy, j + 1, "default");
