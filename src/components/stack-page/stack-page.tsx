@@ -1,4 +1,9 @@
-import React, { useState, FormEvent, MouseEventHandler } from "react";
+import React, {
+  useState,
+  FormEvent,
+  MouseEventHandler,
+  useEffect,
+} from "react";
 import styles from "./stack-page.module.css";
 import { Button } from "../ui/button/button";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
@@ -7,21 +12,32 @@ import { useFormInputs } from "../hooks/useForm";
 import { stack } from "./algorithm";
 import { Circle } from "../ui/circle/circle";
 import { MAX_LENGTH } from "./constants";
-import { isHead } from "../../utils/helpers/stack.helpers";
+import { isHead, setColorState } from "../../utils/helpers/stack.helpers";
+import { delay } from "../../utils";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const StackPage: React.FC = () => {
   const { handleChange, values } = useFormInputs();
-  const [stackArray, setStackArray] = useState<string[]>();
+  const [stackArray, setStackArray] = useState<string[]>([]);
+  const [lastElementIndex, setLastElementIndex] = useState<number>(0);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    stack.push(values.stackElement);
 
-    setStackArray([...stack.getStack()]);
+    stack.push(values.stackElement);
     values.stackElement = "";
+    setStackArray([...stack.getStack()]);
+
+    await delay(SHORT_DELAY_IN_MS);
+
+    setLastElementIndex(lastElementIndex + 1);
   }
 
-  function handleDelete() {
+  async function handleDelete() {
+    setLastElementIndex(lastElementIndex - 1);
+
+    await delay(SHORT_DELAY_IN_MS);
+
     stack.pop();
     setStackArray([...stack.getStack()]);
   }
@@ -51,9 +67,18 @@ export const StackPage: React.FC = () => {
             type="submit"
             disabled={values.stackElement ? false : true}
           />
-          <Button text={"Удалить"} onClick={handleDelete} />
+          <Button
+            text={"Удалить"}
+            onClick={handleDelete}
+            disabled={stackArray.length ? false : true}
+          />
         </div>
-        <Button text={"Очистить"} onClick={handleClear} />
+        <Button
+          text={"Очистить"}
+          type="reset"
+          onClick={handleClear}
+          disabled={stackArray.length ? false : true}
+        />
       </form>
       <div className={styles.stackContainer}>
         {stackArray &&
@@ -61,7 +86,9 @@ export const StackPage: React.FC = () => {
             <Circle
               letter={el}
               index={index}
+              key={index}
               head={isHead(stackArray, index) ? "top" : null}
+              state={setColorState(index, lastElementIndex)}
             />
           ))}
       </div>
