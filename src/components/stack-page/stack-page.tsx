@@ -7,6 +7,7 @@ import { useFormInputs } from "../hooks/useForm";
 import { stack } from "./algorithm";
 import { Circle } from "../ui/circle/circle";
 import { MAX_LENGTH } from "./constants";
+import { isHead } from "../../utils/helpers/stack.helpers";
 
 export const StackPage: React.FC = () => {
   const { handleChange, values } = useFormInputs();
@@ -56,7 +57,7 @@ export const StackPage: React.FC = () => {
             <Circle
               letter={el}
               index={index}
-              head={index === stackArray.length - 1 ? "top" : null}
+              head={isHead(stackArray, index) ? "top" : null}
             />
           ))}
       </div>
