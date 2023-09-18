@@ -25,12 +25,12 @@ export const StackPage: React.FC = () => {
     event.preventDefault();
 
     stack.push(values.stackElement);
-    values.stackElement = "";
     setStackArray([...stack.getStack()]);
 
     await delay(SHORT_DELAY_IN_MS);
 
     setLastElementIndex(lastElementIndex + 1);
+    values.stackElement = "";
   }
 
   async function handleDelete() {
