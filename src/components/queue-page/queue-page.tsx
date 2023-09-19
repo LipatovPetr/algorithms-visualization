@@ -7,7 +7,7 @@ import { MAX_INPUT_LENGTH, QUEUE_LENGTH } from "./constants";
 import { useFormInputs } from "../hooks/useForm";
 import { Queue } from "./queue";
 import { Circle } from "../ui/circle/circle";
-import { TAIL } from "../../constants/element-captions";
+import { HEAD, TAIL } from "../../constants/element-captions";
 
 const queue = new Queue<string>(QUEUE_LENGTH);
 
@@ -16,18 +16,21 @@ export const QueuePage: React.FC = () => {
   const [queueArray, setQueueArray] = useState([...queue.getQueue()]);
   const [head, setHead] = useState<number>(queue.getHead());
   const [tail, setTail] = useState<number>(queue.getTail());
+  const [queueLength, setQueueLength] = useState<number>(queue.getLength());
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     queue.enqueue(values.queueElement);
     setQueueArray([...queue.getQueue()]);
     setTail(queue.getTail());
+    setQueueLength(queue.getLength());
   }
 
   function handleDelete() {
     queue.dequeue();
     setQueueArray([...queue.getQueue()]);
     setHead(queue.getHead());
+    setQueueLength(queue.getLength());
   }
 
   function handleClear() {
@@ -37,15 +40,17 @@ export const QueuePage: React.FC = () => {
     setTail(queue.getTail());
   }
 
+  function isHead(index: number) {
+    return queueLength && index === head ? HEAD : "";
+  }
+
   function isTail(index: number) {
-    return index === tail - 1 ? TAIL : "";
+    return queueLength && index === tail - 1 ? TAIL : "";
   }
 
   return (
     <SolutionLayout title="Очередь">
       <form className={styles.inputsContainer} onSubmit={handleSubmit}>
-        <span>tail {tail}</span>
-        <span>head {head}</span>
         <div className={styles.innerContainer}>
           <Input
             name="queueElement"
@@ -56,7 +61,9 @@ export const QueuePage: React.FC = () => {
           <Button
             type="submit"
             text={"Добавить"}
-            disabled={!values.queueElement}
+            disabled={
+              QUEUE_LENGTH === tail || !values.queueElement ? true : false
+            }
           />
           <Button text={"Удалить"} onClick={handleDelete} />
         </div>
@@ -65,7 +72,14 @@ export const QueuePage: React.FC = () => {
       <div className={styles.queueContainer}>
         {queueArray &&
           queueArray.map((el, index) => {
-            return <Circle letter={el} index={index} tail={isTail(index)} />;
+            return (
+              <Circle
+                letter={el}
+                index={index}
+                head={isHead(index)}
+                tail={isTail(index)}
+              />
+            );
           })}
       </div>
     </SolutionLayout>
