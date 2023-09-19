@@ -26,7 +26,8 @@ export const QueuePage: React.FC = () => {
   }
 
   function handleClear() {
-    console.log(queueArray);
+    queue.clear();
+    setQueueArray([...queue.getQueue()]);
   }
 
   return (

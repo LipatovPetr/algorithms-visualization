@@ -3,15 +3,18 @@ interface IQueue<T> {
   dequeue: () => void;
   peak: () => T | undefined;
   getQueue: () => Array<T | undefined>;
+  clear: () => void;
 }
 
 export class Queue<T> implements IQueue<T> {
+  private readonly size: number = 0;
   private container: (T | undefined)[];
   private head: number = 0;
   private tail: number = 0;
   private length: number = 0;
 
   constructor(size: number) {
+    this.size = size;
     this.container = Array(size);
   }
 
@@ -46,4 +49,11 @@ export class Queue<T> implements IQueue<T> {
   isEmpty = () => this.length === 0;
 
   getQueue = (): (T | undefined)[] => this.container;
+
+  clear = () => {
+    this.head = 0;
+    this.tail = 0;
+    this.length = 0;
+    this.container = Array(this.size);
+  };
 }
