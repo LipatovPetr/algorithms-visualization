@@ -70,9 +70,17 @@ export const QueuePage: React.FC = () => {
               QUEUE_LENGTH === tail || !values.queueElement ? true : false
             }
           />
-          <Button text={"Удалить"} onClick={handleDelete} />
+          <Button
+            text={"Удалить"}
+            onClick={handleDelete}
+            disabled={!queueLength}
+          />
         </div>
-        <Button text={"Очистить"} onClick={handleClear} />
+        <Button
+          text={"Очистить"}
+          onClick={handleClear}
+          disabled={!queueLength}
+        />
       </form>
       <div className={styles.queueContainer}>
         {queueArray &&
