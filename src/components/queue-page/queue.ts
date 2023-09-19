@@ -47,5 +47,3 @@ export class Queue<T> implements IQueue<T> {
 
   getQueue = (): (T | undefined)[] => this.container;
 }
-
-export const queue = new Queue<string>(7);

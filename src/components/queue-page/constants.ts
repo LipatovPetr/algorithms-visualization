@@ -1,3 +1,5 @@
-const MAX_LENGTH = 4;
+const MAX_INPUT_LENGTH = 4;
 
-export { MAX_LENGTH };
+const QUEUE_LENGTH = 7;
+
+export { MAX_INPUT_LENGTH, QUEUE_LENGTH };

@@ -1,15 +1,10 @@
-import React, {
-  useState,
-  FormEvent,
-  MouseEventHandler,
-  useEffect,
-} from "react";
+import React, { useState, FormEvent } from "react";
 import styles from "./stack-page.module.css";
 import { Button } from "../ui/button/button";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { useFormInputs } from "../hooks/useForm";
-import { stack } from "./algorithm";
+import { stack } from "./stack";
 import { Circle } from "../ui/circle/circle";
 import { MAX_LENGTH } from "./constants";
 import { isHead, setColorState } from "../../utils/helpers/stack.helpers";
@@ -25,12 +20,12 @@ export const StackPage: React.FC = () => {
     event.preventDefault();
 
     stack.push(values.stackElement);
+    values.stackElement = "";
     setStackArray([...stack.getStack()]);
 
     await delay(SHORT_DELAY_IN_MS);
 
     setLastElementIndex(lastElementIndex + 1);
-    values.stackElement = "";
   }
 
   async function handleDelete() {

@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import styles from "./queue-page.module.css";
 import { Button } from "../ui/button/button";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import { MAX_LENGTH } from "./constants";
+import { MAX_INPUT_LENGTH, QUEUE_LENGTH } from "./constants";
 import { useFormInputs } from "../hooks/useForm";
-import { queue } from "./algorithm";
+import { Queue } from "./queue";
 import { Circle } from "../ui/circle/circle";
+
+const queue = new Queue<string>(QUEUE_LENGTH);
 
 export const QueuePage: React.FC = () => {
   const { handleChange, values } = useFormInputs();
   const [queueArray, setQueueArray] = useState([...queue.getQueue()]);
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    queue.enqueue(values.queueElement);
+    setQueueArray([...queue.getQueue()]);
+  }
 
   function handleClear() {
     console.log(queueArray);
@@ -18,19 +26,19 @@ export const QueuePage: React.FC = () => {
 
   return (
     <SolutionLayout title="Очередь">
-      <div className={styles.inputsContainer}>
+      <form className={styles.inputsContainer} onSubmit={handleSubmit}>
         <div className={styles.innerContainer}>
           <Input
             name="queueElement"
-            maxLength={MAX_LENGTH}
+            maxLength={MAX_INPUT_LENGTH}
             value={values.queueElement || ""}
             onChange={handleChange}
           />
-          <Button text={"Добавить"} />
+          <Button type="submit" text={"Добавить"} />
           <Button text={"Удалить"} />
         </div>
         <Button text={"Очистить"} onClick={handleClear} />
-      </div>
+      </form>
       <div className={styles.queueContainer}>
         {queueArray &&
           queueArray.map((el, index) => {
