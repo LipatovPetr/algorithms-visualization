@@ -20,6 +20,11 @@ export const QueuePage: React.FC = () => {
     setQueueArray([...queue.getQueue()]);
   }
 
+  function handleDelete() {
+    queue.dequeue();
+    setQueueArray([...queue.getQueue()]);
+  }
+
   function handleClear() {
     console.log(queueArray);
   }
@@ -35,7 +40,7 @@ export const QueuePage: React.FC = () => {
             onChange={handleChange}
           />
           <Button type="submit" text={"Добавить"} />
-          <Button text={"Удалить"} />
+          <Button text={"Удалить"} onClick={handleDelete} />
         </div>
         <Button text={"Очистить"} onClick={handleClear} />
       </form>
