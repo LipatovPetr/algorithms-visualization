@@ -18,6 +18,8 @@ export const QueuePage: React.FC = () => {
     event.preventDefault();
     queue.enqueue(values.queueElement);
     setQueueArray([...queue.getQueue()]);
+    console.log(`tail ${queue.getTail()}`);
+    console.log(`head ${queue.getHead()}`);
   }
 
   function handleDelete() {
@@ -40,7 +42,11 @@ export const QueuePage: React.FC = () => {
             value={values.queueElement || ""}
             onChange={handleChange}
           />
-          <Button type="submit" text={"Добавить"} />
+          <Button
+            type="submit"
+            text={"Добавить"}
+            // disabled={queueArray.length > 6 ? true : false}
+          />
           <Button text={"Удалить"} onClick={handleDelete} />
         </div>
         <Button text={"Очистить"} onClick={handleClear} />
