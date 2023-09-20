@@ -8,6 +8,7 @@ import { useFormInputs } from "../hooks/useForm";
 import { Queue } from "./queue";
 import { Circle } from "../ui/circle/circle";
 import { HEAD, TAIL } from "../../constants/element-captions";
+import { isHead, isTail } from "../../utils/helpers/queue.helpers";
 
 const queue = new Queue<string>(QUEUE_LENGTH);
 
@@ -38,14 +39,7 @@ export const QueuePage: React.FC = () => {
     setQueueArray([...queue.getQueue()]);
     setHead(queue.getHead());
     setTail(queue.getTail());
-  }
-
-  function isHead(index: number) {
-    return queueLength && index === head ? HEAD : "";
-  }
-
-  function isTail(index: number) {
-    return queueLength && index === tail - 1 ? TAIL : "";
+    setQueueLength(queue.getLength());
   }
 
   return (
@@ -89,8 +83,8 @@ export const QueuePage: React.FC = () => {
               <Circle
                 letter={el}
                 index={index}
-                head={isHead(index)}
-                tail={isTail(index)}
+                head={isHead(queueLength, head, index)}
+                tail={isTail(queueLength, tail, index)}
               />
             );
           })}

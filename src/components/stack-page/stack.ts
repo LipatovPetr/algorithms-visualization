@@ -23,7 +23,7 @@ class Stack<T> implements IStack<T> {
 
   peak = (): T | null => {
     if (this.container.length === 0) {
-      return null; // Stack is empty
+      return null;
     }
     return this.container[this.container.length - 1];
   };
