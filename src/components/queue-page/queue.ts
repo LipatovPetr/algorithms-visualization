@@ -26,11 +26,6 @@ export class Queue<T> implements IQueue<T> {
     if (this.length >= this.size) {
       throw new Error("Maximum length exceeded");
     }
-
-    if (this.tail === undefined) {
-      this.tail = 0;
-    }
-
     this.container[this.tail % this.size] = item;
     this.tail++;
     this.length++;
@@ -41,25 +36,12 @@ export class Queue<T> implements IQueue<T> {
       return undefined;
     }
 
-    if (this.head === undefined) {
-      this.head = 0;
-    }
-
     const item = this.container[this.head];
     this.container[this.head % this.size] = undefined;
-    this.head = this.head + 1;
-    // this.head = this.head + 1 !== this.size ? this.head + 1 : this.head;
+    this.head = this.head + 1 !== this.size ? this.head + 1 : this.head;
     this.length--;
     return item;
   };
-
-  // peak = (): T | undefined => {
-  //   if (this.isEmpty()) {
-  //     throw new Error("No elements in the queue");
-  //   }
-
-  //   return this.container[this.head];
-  // };
 
   isEmpty = () => this.length === 0;
 

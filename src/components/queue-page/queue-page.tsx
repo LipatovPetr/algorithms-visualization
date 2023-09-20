@@ -44,6 +44,10 @@ export const QueuePage: React.FC = () => {
 
   return (
     <SolutionLayout title="Очередь">
+      <div>{`head ${head}`}</div>
+      <div>{`tail ${tail}`}</div>
+      <div>{`len ${queueLength}`}</div>
+
       <form className={styles.inputsContainer} onSubmit={handleSubmit}>
         <div className={styles.innerContainer}>
           <div>
@@ -73,7 +77,7 @@ export const QueuePage: React.FC = () => {
         <Button
           text={"Очистить"}
           onClick={handleClear}
-          disabled={!queueLength}
+          disabled={!queueLength && !head}
         />
       </form>
       <div className={styles.queueContainer}>
@@ -83,7 +87,7 @@ export const QueuePage: React.FC = () => {
               <Circle
                 letter={el}
                 index={index}
-                head={isHead(queueLength, head, index)}
+                head={isHead(queueLength, head, tail, index)}
                 tail={isTail(queueLength, tail, index)}
               />
             );
