@@ -7,8 +7,8 @@ import { useFormInputs } from "../hooks/useForm";
 import { stack } from "./stack";
 import { Circle } from "../ui/circle/circle";
 import { MAX_LENGTH } from "./constants";
-import { isHead, setColorState } from "../../utils/helpers/stack.helpers";
-import { delay } from "../../utils";
+import { isHead } from "../../utils/helpers/stack.helpers";
+import { delay, setColorState } from "../../utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const StackPage: React.FC = () => {
