@@ -1,0 +1,28 @@
+.form {
+  width: 952px;
+  margin: auto;
+}
+
+.upperRow {
+  display: flex;
+  gap: 12px;
+}
+
+.input {
+  max-width: 204px;
+}
+
+.bottomRow {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+}
+
+.caption {
+  margin: 0;
+  margin-top: 4px;
+  margin-left: 16px;
+  font-size: 14px;
+  text-align: left;
+  color: var(--colors-gray-24, #3d3d3d);
+}
