@@ -1,7 +1,6 @@
 interface IQueue<T> {
   enqueue: (item: T) => void;
   dequeue: () => T | undefined;
-  // peak: () => T | undefined;
   getHead: () => number | undefined;
   getTail: () => number | undefined;
   getSize: () => number;

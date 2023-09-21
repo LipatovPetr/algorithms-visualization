@@ -12,6 +12,8 @@ interface ILinkedList<T> {
   append: (element: T) => void;
   deleteHead: () => T | undefined;
   deleteTail: () => T | undefined;
+  deleteByIndex: (index: number) => T | undefined;
+  addByIndex: (element: T, index: number) => void;
   getSize: () => number;
   toArray: () => Array<T>;
 }
@@ -84,6 +86,77 @@ export class LinkedList<T> implements ILinkedList<T> {
 
       return deletedValue;
     }
+  }
+
+  addByIndex(value: T, index: number) {
+    if (index < 0 || index > this.size) {
+      throw new Error(`Неверный индекс. Допустимый диапазон [0, ${this.size}]`);
+    }
+
+    const node = new Node(value);
+
+    if (index === 0) {
+      // Если индекс равен 0, добавляем элемент в начало списка
+      this.prepend(value);
+    } else if (index === this.size) {
+      // Если индекс равен размеру списка, добавляем элемент в конец списка
+      this.append(value);
+    } else {
+      // Начнем с головы списка
+      let curr = this.head;
+      let currIndex = 0;
+
+      // Двигаемся до узла, предшествующего заданному индексу
+      while (curr && currIndex !== index - 1) {
+        curr = curr.next;
+        currIndex++;
+      }
+
+      if (curr) {
+        // Если curr не null, вставляем новый узел между curr и curr.next
+        const newNode = new Node(value, curr.next);
+        curr.next = newNode;
+        this.size++;
+      }
+    }
+  }
+
+  deleteByIndex(index: number): T | undefined {
+    if (index < 0 || index >= this.size) {
+      throw new Error(
+        `Неверный индекс. Допустимый диапазон [0, ${this.size - 1}]`
+      );
+    }
+
+    let deletedValue: T | undefined;
+
+    if (index === 0) {
+      // Если индекс равен 0, удаляем голову списка
+      deletedValue = this.deleteHead();
+    } else if (index === this.size - 1) {
+      // Если индекс равен размеру списка - 1, удаляем хвост списка
+      deletedValue = this.deleteTail();
+    } else {
+      // Начнем с головы списка
+      let curr = this.head;
+      let currIndex = 0;
+
+      // Двигаемся до узла, предшествующего заданному индексу
+      while (curr && currIndex !== index - 1) {
+        curr = curr.next;
+        currIndex++;
+      }
+
+      if (curr && curr.next) {
+        // Если curr и curr.next не null, удаляем узел curr.next и возвращаем его значение
+        const deletedNode = curr.next;
+        curr.next = curr.next.next;
+        this.size--;
+        deletedValue = deletedNode.value;
+      }
+    }
+
+    return deletedValue;
   }
 
   getSize() {
