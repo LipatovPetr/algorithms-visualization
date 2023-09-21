@@ -17,9 +17,14 @@ interface ILinkedList<T> {
 class LinkedList<T> implements ILinkedList<T> {
   private head: Node<T> | null;
   private size: number;
-  constructor() {
+
+  constructor(array: Array<T> = []) {
     this.head = null;
     this.size = 0;
+
+    for (const item of array) {
+      this.append(item);
+    }
   }
 
   prepend(value: T) {
