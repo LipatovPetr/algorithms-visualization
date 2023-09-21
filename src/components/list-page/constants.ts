@@ -3,7 +3,7 @@ const MAX_INPUT_LENGTH = 4;
 const MIN_ARR_NUMBER = 0;
 const MAX_ARR_NUMBER = 100;
 const MIN_ARR_LENGTH = 3;
-const MAX_ARR_LENGTH = 17;
+const MAX_ARR_LENGTH = 7;
 
 export {
   MIN_ARR_NUMBER,

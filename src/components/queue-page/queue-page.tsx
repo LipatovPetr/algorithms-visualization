@@ -31,8 +31,8 @@ export const QueuePage: React.FC = () => {
     setQueueArray([...queue.getQueue()]);
     setTail(queue.getTail());
     setQueueLength(queue.getLength());
-    values.queueElement = "";
 
+    values.queueElement = "";
     setHighlightedIndex(-1);
   }
 

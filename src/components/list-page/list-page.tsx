@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
+import { generateRandomArray } from "../../utils";
 import { Button } from "../ui/button/button";
+import { Circle } from "../ui/circle/circle";
+import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import { MAX_INPUT_LENGTH } from "./constants";
+import {
+  MAX_INPUT_LENGTH,
+  MAX_ARR_LENGTH,
+  MIN_ARR_LENGTH,
+  MAX_ARR_NUMBER,
+  MIN_ARR_NUMBER,
+} from "./constants";
 import styles from "./list-page.module.css";
 
+const randomArray = generateRandomArray(
+  MIN_ARR_NUMBER,
+  MAX_ARR_NUMBER,
+  MAX_ARR_LENGTH,
+  MIN_ARR_LENGTH
+);
+
 export const ListPage: React.FC = () => {
+  const [mappedArray, setMappedArray] = useState(randomArray);
+
   return (
     <SolutionLayout title="Связный список">
       <form className={styles.form}>
@@ -26,6 +44,17 @@ export const ListPage: React.FC = () => {
           <Button text="Добавить в head" linkedList="big" />
           <Button text="Добавить в tail" linkedList="big" />
         </div>
+        <ul className={styles.linkedListContainer}>
+          {mappedArray &&
+            mappedArray.map((el, index) => {
+              return (
+                <li className={styles.linkedListElement}>
+                  <Circle letter={el + ""} extraClass="mr-12 ml-12" />
+                  {index < mappedArray.length - 1 && <ArrowIcon />}
+                </li>
+              );
+            })}
+        </ul>
       </form>
     </SolutionLayout>
   );

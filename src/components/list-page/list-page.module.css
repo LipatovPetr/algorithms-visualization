@@ -26,3 +26,15 @@
   text-align: left;
   color: var(--colors-gray-24, #3d3d3d);
 }
+
+.linkedListContainer {
+  margin-top: 90px;
+  max-width: 952px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.linkedListElement {
+  display: flex;
+  align-items: center;
+}
