@@ -8,6 +8,7 @@ export class Node<T> {
 }
 
 interface ILinkedList<T> {
+  prepend: (element: T) => void;
   append: (element: T) => void;
   getSize: () => number;
   print: () => void;
@@ -21,8 +22,26 @@ class LinkedList<T> implements ILinkedList<T> {
     this.size = 0;
   }
 
-  append(element: T) {
-    const node = new Node(element);
+  prepend(value: T) {
+    const node = new Node(value, this.head);
+    this.head = node;
+    this.size++;
+  }
+
+  append(value: T) {
+    const node = new Node(value);
+    if (this.head) {
+      let curr = this.head;
+
+      while (curr.next) {
+        curr = curr.next;
+      }
+
+      curr.next = node;
+    } else {
+      this.head = node;
+    }
+
     this.size++;
   }
 
