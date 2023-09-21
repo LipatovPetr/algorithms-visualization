@@ -5,27 +5,35 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
-import {
-  generateRandomArray,
-  mapArray,
-} from "../../utils/helpers/sorting.helpers";
+import { mapArray } from "../../utils/helpers/sorting.helpers";
+import { generateRandomArray } from "../../utils";
 import { selectSort, bubbleSort } from "./algorithm";
 import { elementWithState } from "./Types";
-
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { MIN_NUMBER, MAX_NUMBER, MIN_LENGTH, MAX_LENGTH } from "./constants";
 
 export const SortingPage: React.FC = () => {
   const [sortingOption, setSortingOption] = useState("Select");
   const [sortedArray, setSortedArray] = useState<Array<elementWithState>>([]);
 
   useEffect(function generateArrayOnLoad() {
-    const randomArray = generateRandomArray();
+    const randomArray = generateRandomArray(
+      MIN_NUMBER,
+      MAX_NUMBER,
+      MIN_LENGTH,
+      MAX_LENGTH
+    );
     const mappedArray = mapArray(randomArray);
     setSortedArray(mappedArray);
   }, []);
 
   const handleGenerateNewArrayClick = (e: MouseEvent<HTMLButtonElement>) => {
-    const randomArray = generateRandomArray();
+    const randomArray = generateRandomArray(
+      MIN_NUMBER,
+      MAX_NUMBER,
+      MIN_LENGTH,
+      MAX_LENGTH
+    );
     const mappedArray = mapArray(randomArray);
     setSortedArray(mappedArray);
   };
