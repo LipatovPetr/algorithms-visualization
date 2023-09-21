@@ -13,7 +13,7 @@ import {
   MAX_ARR_NUMBER,
   MIN_ARR_NUMBER,
 } from "./constants";
-import { LinkedList } from "./linked-list";
+import { LinkedList } from "./LinkedList";
 import styles from "./list-page.module.css";
 
 const randomArray = generateRandomArray(
@@ -21,21 +21,33 @@ const randomArray = generateRandomArray(
   MAX_ARR_NUMBER,
   MAX_ARR_LENGTH,
   MIN_ARR_LENGTH
-);
+).map(String);
 
 export const ListPage: React.FC = () => {
   const [mappedArray, setMappedArray] = useState(randomArray);
   const { handleChange, values } = useFormInputs();
 
-  const linkedList = new LinkedList<number | string>(randomArray);
+  const linkedList = new LinkedList<string>(randomArray);
 
-  function handleAddToHead() {}
+  function handleAddToHead() {
+    linkedList.prepend(values.valueToAdd);
+    console.log(linkedList.toArray());
+  }
 
-  function handleAddToTail() {}
+  function handleAddToTail() {
+    linkedList.append(values.valueToAdd);
+    console.log(linkedList.toArray());
+  }
 
-  function handleRemoveFromHead() {}
+  function handleDeleteFromHead() {
+    linkedList.deleteHead();
+    console.log(linkedList.toArray());
+  }
 
-  function handleRemoveFromTail() {}
+  function handleDeleteFromTail() {
+    linkedList.deleteTail();
+    console.log(linkedList.toArray());
+  }
 
   return (
     <SolutionLayout title="Связный список">
@@ -57,23 +69,25 @@ export const ListPage: React.FC = () => {
             type="button"
             onClick={handleAddToHead}
             linkedList="small"
+            disabled={!values.valueToAdd}
           />
           <Button
             text="Добавить в tail"
             type="button"
             onClick={handleAddToTail}
             linkedList="small"
+            disabled={!values.valueToAdd}
           />
           <Button
             text="Удалить из head"
             type="button"
-            onClick={handleRemoveFromHead}
+            onClick={handleDeleteFromHead}
             linkedList="small"
           />
           <Button
             text="Удалить из tail"
             type="button"
-            onClick={handleRemoveFromTail}
+            onClick={handleDeleteFromTail}
             linkedList="small"
           />
         </div>
@@ -86,8 +100,8 @@ export const ListPage: React.FC = () => {
             extraClass={styles.input}
             placeholder="Введите индекс"
           />
-          <Button text="Добавить в head" linkedList="big" />
-          <Button text="Добавить в tail" linkedList="big" />
+          <Button text="Добавить по индексу" type="button" linkedList="big" />
+          <Button text="Удалить по индексу" type="button" linkedList="big" />
         </div>
         <ul className={styles.linkedListContainer}>
           {mappedArray &&

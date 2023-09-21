@@ -31,6 +31,7 @@ export class LinkedList<T> implements ILinkedList<T> {
 
   prepend(value: T) {
     const node = new Node(value, this.head);
+    node.next = this.head;
     this.head = node;
     this.size++;
   }
