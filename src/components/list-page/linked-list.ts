@@ -16,7 +16,7 @@ interface ILinkedList<T> {
   toArray: () => Array<T>;
 }
 
-class LinkedList<T> implements ILinkedList<T> {
+export class LinkedList<T> implements ILinkedList<T> {
   private head: Node<T> | null;
   private size: number;
 
@@ -101,5 +101,3 @@ class LinkedList<T> implements ILinkedList<T> {
     return result;
   }
 }
-
-const list = new LinkedList<number>();

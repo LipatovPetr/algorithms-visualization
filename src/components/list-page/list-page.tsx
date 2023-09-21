@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { generateRandomArray } from "../../utils";
+import { useFormInputs } from "../hooks/useForm";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
@@ -12,6 +13,7 @@ import {
   MAX_ARR_NUMBER,
   MIN_ARR_NUMBER,
 } from "./constants";
+import { LinkedList } from "./linked-list";
 import styles from "./list-page.module.css";
 
 const randomArray = generateRandomArray(
@@ -23,24 +25,67 @@ const randomArray = generateRandomArray(
 
 export const ListPage: React.FC = () => {
   const [mappedArray, setMappedArray] = useState(randomArray);
+  const { handleChange, values } = useFormInputs();
+
+  const linkedList = new LinkedList<number | string>(randomArray);
+
+  function handleAddToHead() {}
+
+  function handleAddToTail() {}
+
+  function handleRemoveFromHead() {}
+
+  function handleRemoveFromTail() {}
 
   return (
     <SolutionLayout title="Связный список">
       <form className={styles.form}>
         <div className={styles.upperRow}>
           <div>
-            <Input extraClass={styles.input} placeholder="Введите значение" />
+            <Input
+              name="valueToAdd"
+              onChange={handleChange}
+              extraClass={styles.input}
+              placeholder="Введите значение"
+            />
             <p
               className={styles.caption}
             >{`Максимум — ${MAX_INPUT_LENGTH} символов`}</p>
           </div>
-          <Button text="Добавить в head" linkedList="small" />
-          <Button text="Добавить в tail" linkedList="small" />
-          <Button text="Удалить из head" linkedList="small" />
-          <Button text="Удалить из tail" linkedList="small" />
+          <Button
+            text="Добавить в head"
+            type="button"
+            onClick={handleAddToHead}
+            linkedList="small"
+          />
+          <Button
+            text="Добавить в tail"
+            type="button"
+            onClick={handleAddToTail}
+            linkedList="small"
+          />
+          <Button
+            text="Удалить из head"
+            type="button"
+            onClick={handleRemoveFromHead}
+            linkedList="small"
+          />
+          <Button
+            text="Удалить из tail"
+            type="button"
+            onClick={handleRemoveFromTail}
+            linkedList="small"
+          />
         </div>
         <div className={styles.bottomRow}>
-          <Input extraClass={styles.input} placeholder="Введите индекс" />
+          <Input
+            name="listIndex"
+            type="number"
+            min={0}
+            onChange={handleChange}
+            extraClass={styles.input}
+            placeholder="Введите индекс"
+          />
           <Button text="Добавить в head" linkedList="big" />
           <Button text="Добавить в tail" linkedList="big" />
         </div>
