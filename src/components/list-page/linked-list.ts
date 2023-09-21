@@ -10,8 +10,10 @@ export class Node<T> {
 interface ILinkedList<T> {
   prepend: (element: T) => void;
   append: (element: T) => void;
+  deleteHead: () => T | undefined;
+  deleteTail: () => T | undefined;
   getSize: () => number;
-  print: () => void;
+  toArray: () => Array<T>;
 }
 
 class LinkedList<T> implements ILinkedList<T> {
@@ -50,18 +52,53 @@ class LinkedList<T> implements ILinkedList<T> {
     this.size++;
   }
 
+  deleteHead(): T | undefined {
+    if (!this.head) {
+      return undefined;
+    }
+
+    const deletedValue = this.head.value;
+    this.head = this.head.next;
+    this.size--;
+
+    return deletedValue;
+  }
+
+  deleteTail() {
+    if (!this.head) {
+      return undefined;
+    } else if (!this.head.next) {
+      const deletedValue = this.head.value;
+      this.head = null;
+      this.size--;
+      return deletedValue;
+    } else {
+      let curr = this.head;
+      while (curr.next?.next) {
+        curr = curr.next;
+      }
+      const deletedValue = curr.next!.value;
+      curr.next = null;
+      this.size--;
+
+      return deletedValue;
+    }
+  }
+
   getSize() {
     return this.size;
   }
 
-  print() {
+  toArray() {
+    const result: T[] = [];
     let curr = this.head;
-    let res = "";
+
     while (curr) {
-      res += `${curr.value} `;
+      result.push(curr.value);
       curr = curr.next;
     }
-    console.log(res);
+
+    return result;
   }
 }
 
