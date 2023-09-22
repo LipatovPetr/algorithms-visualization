@@ -28,7 +28,7 @@
 }
 
 .linkedListContainer {
-  margin-top: 90px;
+  margin-top: 120px;
   width: 952px;
   display: flex;
   flex-wrap: wrap;
@@ -36,6 +36,13 @@
 }
 
 .linkedListElement {
+  position: relative;
   display: flex;
   align-items: center;
+}
+
+.secondaryCircle {
+  position: absolute;
+  left: 36px;
+  top: -90px;
 }

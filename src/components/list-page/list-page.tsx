@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ElementStates } from "../../types/element-states";
 import { generateRandomArray } from "../../utils";
 import { isWithinListSize } from "../../utils/helpers/linked-list.helpers";
 import { useFormInputs } from "../hooks/useForm";
@@ -18,15 +19,28 @@ import {
 import { LinkedList } from "./LinkedList";
 import styles from "./list-page.module.css";
 
-const randomArray = generateRandomArray(
+export type linkedlistModelNode = {
+  value: string;
+  state: ElementStates;
+  incomingValue: null | string;
+};
+
+const randomArray: Array<string> = generateRandomArray(
   MIN_ARR_NUMBER,
   MAX_ARR_NUMBER,
   ARR_LENGTH,
   MIN_ARR_LENGTH
 ).map(String);
 
+const mappedArray: Array<linkedlistModelNode> = randomArray.map((element) => ({
+  value: element,
+  state: ElementStates.Default,
+  incomingValue: null,
+}));
+
 export const ListPage: React.FC = () => {
-  const [listModelArray, setListModelArray] = useState<string[]>(randomArray);
+  const [listModelArray, setListModelArray] =
+    useState<linkedlistModelNode[]>(mappedArray);
   const { handleChange, values } = useFormInputs();
   let userInputValue = values.enteredValue;
   let userInputIndex = Number(values.enteredIndex);
@@ -35,7 +49,11 @@ export const ListPage: React.FC = () => {
   function handleAddToHead() {
     // list model operations
     const arrayCopy = [...listModelArray];
-    arrayCopy.unshift(userInputValue);
+    arrayCopy.unshift({
+      value: userInputValue,
+      state: ElementStates.Default,
+      incomingValue: null,
+    });
     setListModelArray(arrayCopy);
 
     // list operations
@@ -46,7 +64,11 @@ export const ListPage: React.FC = () => {
   function handleAddToTail() {
     // list model operations
     const arrayCopy = [...listModelArray];
-    arrayCopy.push(userInputValue);
+    arrayCopy.push({
+      value: userInputValue,
+      state: ElementStates.Default,
+      incomingValue: null,
+    });
     setListModelArray(arrayCopy);
 
     // list operations
@@ -80,7 +102,11 @@ export const ListPage: React.FC = () => {
     // list model operations
     if (isWithinListSize(userInputIndex, listModelArray)) {
       const arrayCopy = [...listModelArray];
-      arrayCopy.splice(userInputIndex, 0, userInputValue);
+      arrayCopy.splice(userInputIndex, 0, {
+        value: userInputValue,
+        state: ElementStates.Default,
+        incomingValue: null,
+      });
       setListModelArray(arrayCopy);
     }
 
@@ -181,7 +207,16 @@ export const ListPage: React.FC = () => {
             listModelArray.map((el, index) => {
               return (
                 <li className={styles.linkedListElement}>
-                  <Circle letter={el} extraClass="mr-12 ml-12" />
+                  <Circle
+                    extraClass={styles.secondaryCircle}
+                    letter={""}
+                    isSmall
+                  />
+                  <Circle
+                    letter={el.value}
+                    index={index}
+                    extraClass="mr-12 ml-12"
+                  />
                   {index < listModelArray.length - 1 && <ArrowIcon />}
                 </li>
               );
