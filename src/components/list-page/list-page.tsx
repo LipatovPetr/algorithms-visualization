@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
+import { linkedlistModelNode } from "./types";
 import { delay, generateRandomArray } from "../../utils";
-import { isWithinListSize } from "../../utils/helpers/linked-list.helpers";
+import {
+  isWithinListSize,
+  addByIndex,
+  addToHead,
+  addToTail,
+  changeColorState,
+  setIncomingValue,
+  setElementForRemoval,
+} from "../../utils/helpers/linked-list.helpers";
 import { useFormInputs } from "../hooks/useForm";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
@@ -20,12 +29,6 @@ import {
 import { LinkedList } from "./LinkedList";
 import styles from "./list-page.module.css";
 
-export type linkedlistModelNode = {
-  value: string;
-  state: ElementStates;
-  incomingValue: null | string;
-};
-
 const randomArray: Array<string> = generateRandomArray(
   MIN_ARR_NUMBER,
   MAX_ARR_NUMBER,
@@ -39,63 +42,7 @@ const mappedArray: Array<linkedlistModelNode> = randomArray.map((element) => ({
   incomingValue: null,
 }));
 
-function addToHead(
-  arr: Array<linkedlistModelNode>,
-  inputValue: string,
-  colorState = ElementStates.Modified
-) {
-  arr.unshift({
-    value: inputValue,
-    state: colorState,
-    incomingValue: null,
-  });
-}
-
-function addToTail(
-  arr: Array<linkedlistModelNode>,
-  inputValue: string,
-  colorState = ElementStates.Modified
-) {
-  arr.push({
-    value: inputValue,
-    state: colorState,
-    incomingValue: null,
-  });
-}
-
-function addByIndex(
-  arr: Array<linkedlistModelNode>,
-  inputIndex: number,
-  inputValue: string,
-  colorState = ElementStates.Modified
-) {
-  arr.splice(inputIndex, 0, {
-    value: inputValue,
-    state: colorState,
-    incomingValue: null,
-  });
-}
-
-function changeColorState(arr: Array<linkedlistModelNode>, index: number) {
-  arr[index].state = ElementStates.Default;
-}
-
-function setIncomingValue(
-  arr: Array<linkedlistModelNode>,
-  index: number,
-  inputValue: string | null
-) {
-  arr[index].incomingValue = inputValue;
-}
-
-function setElementForRemoval(arr: Array<linkedlistModelNode>, index: number) {
-  const el = arr[index].value;
-  arr[index] = {
-    value: "",
-    state: ElementStates.Default,
-    incomingValue: el,
-  };
-}
+function loopHighlightingToIndex() {}
 
 export const ListPage: React.FC = () => {
   const [listModelArray, setListModelArray] =
@@ -159,35 +106,39 @@ export const ListPage: React.FC = () => {
   }
 
   async function handleDeleteFromHead() {
-    // list model operations
+    // 1. list model operations
     const arrayCopy = [...listModelArray];
 
+    // 1.1. highlight value to be deleted from head
     setElementForRemoval(arrayCopy, 0);
     setListModelArray(arrayCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
+    // 1.2. deleted value from head
     arrayCopy.shift();
     setListModelArray([...arrayCopy]);
 
-    // list operations
+    // 2. list operations
     linkedList.deleteHead();
     console.log(linkedList.toArray());
   }
 
   async function handleDeleteFromTail() {
-    // list model operations
+    // 1. list model operations
     const arrayCopy = [...listModelArray];
 
+    // 1.1. highlight value to be deleted from tail
     setElementForRemoval(arrayCopy, arrayCopy.length - 1);
     setListModelArray(arrayCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
+    // 1.2. deleted value from tail
     arrayCopy.pop();
     setListModelArray([...arrayCopy]);
 
-    // list operations
+    // 2. list operations
     linkedList.deleteTail();
     console.log(linkedList.toArray());
   }
@@ -196,10 +147,32 @@ export const ListPage: React.FC = () => {
     // list model operations
     if (isWithinListSize(userInputIndex, listModelArray)) {
       const arrayCopy = [...listModelArray];
-      addByIndex(arrayCopy, userInputIndex, userInputValue);
-      setListModelArray(arrayCopy);
+
+      for (let i = 0; i <= userInputIndex; i++) {
+        arrayCopy[i].incomingValue = userInputValue;
+
+        if (i > 0) {
+          arrayCopy[i - 1].incomingValue = null;
+          arrayCopy[i - 1].state = ElementStates.Changing;
+        }
+        setListModelArray([...arrayCopy]);
+        await delay(SHORT_DELAY_IN_MS);
+
+        setListModelArray([...arrayCopy]);
+      }
 
       await delay(SHORT_DELAY_IN_MS);
+
+      addByIndex(arrayCopy, userInputIndex, userInputValue);
+      setIncomingValue(arrayCopy, userInputIndex + 1, null);
+      setListModelArray([...arrayCopy]);
+
+      await delay(SHORT_DELAY_IN_MS);
+
+      for (let i = 0; i < userInputIndex; i++) {
+        arrayCopy[i].state = ElementStates.Default;
+        setListModelArray([...arrayCopy]);
+      }
 
       changeColorState(arrayCopy, userInputIndex);
       setListModelArray([...arrayCopy]);
@@ -210,11 +183,34 @@ export const ListPage: React.FC = () => {
     console.log(linkedList.toArray());
   }
 
-  function handleDeleteByIndex() {
+  async function handleDeleteByIndex() {
     // list model operations
     const arrayCopy = [...listModelArray];
+
+    for (let i = 0; i <= userInputIndex; i++) {
+      if (i > 0) {
+        arrayCopy[i - 1].state = ElementStates.Changing;
+      }
+      setListModelArray([...arrayCopy]);
+      await delay(SHORT_DELAY_IN_MS);
+
+      setListModelArray([...arrayCopy]);
+    }
+
+    setElementForRemoval(arrayCopy, userInputIndex);
+    setListModelArray([...arrayCopy]);
+
+    await delay(SHORT_DELAY_IN_MS);
+
     arrayCopy.splice(Number(userInputIndex), 1);
     setListModelArray(arrayCopy);
+
+    await delay(SHORT_DELAY_IN_MS);
+
+    for (let i = 0; i < userInputIndex; i++) {
+      arrayCopy[i].state = ElementStates.Default;
+      setListModelArray([...arrayCopy]);
+    }
 
     // list operations
     linkedList.deleteByIndex(Number(userInputIndex));
@@ -284,7 +280,9 @@ export const ListPage: React.FC = () => {
             onClick={handleAddByIndex}
             linkedList="big"
             disabled={
-              !values.enteredIndex || listModelArray.length >= MAX_ARR_LENGTH
+              !values.enteredValue ||
+              !values.enteredIndex ||
+              listModelArray.length >= MAX_ARR_LENGTH
             }
           />
           <Button
@@ -292,9 +290,7 @@ export const ListPage: React.FC = () => {
             type="button"
             onClick={handleDeleteByIndex}
             linkedList="big"
-            disabled={
-              !values.enteredIndex || listModelArray.length >= MAX_ARR_LENGTH
-            }
+            disabled={!values.enteredIndex || listModelArray.length < 1}
           />
         </div>
         <ul className={styles.linkedListContainer}>
