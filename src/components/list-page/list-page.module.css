@@ -29,9 +29,10 @@
 
 .linkedListContainer {
   margin-top: 90px;
-  max-width: 952px;
+  width: 952px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .linkedListElement {

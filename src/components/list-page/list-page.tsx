@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { generateRandomArray } from "../../utils";
+import { isWithinListSize } from "../../utils/helpers/linked-list.helpers";
 import { useFormInputs } from "../hooks/useForm";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
@@ -8,6 +9,7 @@ import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import {
   MAX_INPUT_LENGTH,
+  ARR_LENGTH,
   MAX_ARR_LENGTH,
   MIN_ARR_LENGTH,
   MAX_ARR_NUMBER,
@@ -19,43 +21,82 @@ import styles from "./list-page.module.css";
 const randomArray = generateRandomArray(
   MIN_ARR_NUMBER,
   MAX_ARR_NUMBER,
-  MAX_ARR_LENGTH,
+  ARR_LENGTH,
   MIN_ARR_LENGTH
 ).map(String);
 
 export const ListPage: React.FC = () => {
-  const [mappedArray, setMappedArray] = useState(randomArray);
+  const [mappedArray, setMappedArray] = useState<string[]>(randomArray);
   const { handleChange, values } = useFormInputs();
-
+  let userInputValue = values.enteredValue;
+  let userInputIndex = Number(values.enteredIndex);
   const linkedList = new LinkedList<string>(randomArray);
 
   function handleAddToHead() {
-    linkedList.prepend(values.valueToAdd);
+    // list model operations
+    const arrayCopy = [...mappedArray];
+    arrayCopy.unshift(userInputValue);
+    setMappedArray(arrayCopy);
+
+    // list operations
+    linkedList.prepend(userInputValue);
     console.log(linkedList.toArray());
   }
 
   function handleAddToTail() {
-    linkedList.append(values.valueToAdd);
+    // list model operations
+    const arrayCopy = [...mappedArray];
+    arrayCopy.push(userInputValue);
+    setMappedArray(arrayCopy);
+
+    // list operations
+    linkedList.append(userInputValue);
     console.log(linkedList.toArray());
   }
 
   function handleDeleteFromHead() {
+    // list model operations
+    const arrayCopy = [...mappedArray];
+    arrayCopy.shift();
+    setMappedArray(arrayCopy);
+
+    // list operations
     linkedList.deleteHead();
     console.log(linkedList.toArray());
   }
 
   function handleDeleteFromTail() {
+    // list model operations
+    const arrayCopy = [...mappedArray];
+    arrayCopy.pop();
+    setMappedArray(arrayCopy);
+
+    // list operations
     linkedList.deleteTail();
     console.log(linkedList.toArray());
   }
 
   function handleAddByIndex() {
-    linkedList.addByIndex(values.valueToAdd, Number(values.listIndex));
+    // list model operations
+    if (isWithinListSize(userInputIndex, mappedArray)) {
+      const arrayCopy = [...mappedArray];
+      arrayCopy[userInputIndex] = userInputValue;
+      setMappedArray(arrayCopy);
+    }
+
+    // list operations
+    linkedList.addByIndex(userInputValue, userInputIndex);
     console.log(linkedList.toArray());
   }
 
   function handleDeleteByIndex() {
-    linkedList.deleteByIndex(Number(values.listIndex));
+    // list model operations
+    const arrayCopy = [...mappedArray];
+    arrayCopy.splice(Number(userInputIndex), 1);
+    setMappedArray(arrayCopy);
+
+    // list operations
+    linkedList.deleteByIndex(Number(userInputIndex));
     console.log(linkedList.toArray());
   }
 
@@ -65,7 +106,7 @@ export const ListPage: React.FC = () => {
         <div className={styles.upperRow}>
           <div>
             <Input
-              name="valueToAdd"
+              name="enteredValue"
               onChange={handleChange}
               extraClass={styles.input}
               placeholder="Введите значение"
@@ -79,14 +120,14 @@ export const ListPage: React.FC = () => {
             type="button"
             onClick={handleAddToHead}
             linkedList="small"
-            disabled={!values.valueToAdd}
+            disabled={!userInputValue && mappedArray.length >= MAX_ARR_LENGTH}
           />
           <Button
             text="Добавить в tail"
             type="button"
             onClick={handleAddToTail}
             linkedList="small"
-            disabled={!values.valueToAdd}
+            disabled={!userInputValue && mappedArray.length >= MAX_ARR_LENGTH}
           />
           <Button
             text="Удалить из head"
@@ -103,7 +144,7 @@ export const ListPage: React.FC = () => {
         </div>
         <div className={styles.bottomRow}>
           <Input
-            name="listIndex"
+            name="enteredIndex"
             type="number"
             min={0}
             onChange={handleChange}
@@ -115,12 +156,14 @@ export const ListPage: React.FC = () => {
             type="button"
             onClick={handleAddByIndex}
             linkedList="big"
+            disabled={!userInputIndex}
           />
           <Button
             text="Удалить по индексу"
             type="button"
             onClick={handleDeleteByIndex}
             linkedList="big"
+            disabled={!userInputIndex}
           />
         </div>
         <ul className={styles.linkedListContainer}>
@@ -128,7 +171,7 @@ export const ListPage: React.FC = () => {
             mappedArray.map((el, index) => {
               return (
                 <li className={styles.linkedListElement}>
-                  <Circle letter={el + ""} extraClass="mr-12 ml-12" />
+                  <Circle letter={el} extraClass="mr-12 ml-12" />
                   {index < mappedArray.length - 1 && <ArrowIcon />}
                 </li>
               );
