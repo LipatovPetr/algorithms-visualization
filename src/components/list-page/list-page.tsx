@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
-import { generateRandomArray } from "../../utils";
+import { delay, generateRandomArray } from "../../utils";
 import { isWithinListSize } from "../../utils/helpers/linked-list.helpers";
 import { useFormInputs } from "../hooks/useForm";
 import { Button } from "../ui/button/button";
@@ -38,6 +39,64 @@ const mappedArray: Array<linkedlistModelNode> = randomArray.map((element) => ({
   incomingValue: null,
 }));
 
+function addToHead(
+  arr: Array<linkedlistModelNode>,
+  inputValue: string,
+  colorState = ElementStates.Modified
+) {
+  arr.unshift({
+    value: inputValue,
+    state: colorState,
+    incomingValue: null,
+  });
+}
+
+function addToTail(
+  arr: Array<linkedlistModelNode>,
+  inputValue: string,
+  colorState = ElementStates.Modified
+) {
+  arr.push({
+    value: inputValue,
+    state: colorState,
+    incomingValue: null,
+  });
+}
+
+function addByIndex(
+  arr: Array<linkedlistModelNode>,
+  inputIndex: number,
+  inputValue: string,
+  colorState = ElementStates.Modified
+) {
+  arr.splice(inputIndex, 0, {
+    value: inputValue,
+    state: colorState,
+    incomingValue: null,
+  });
+}
+
+function changeColorState(arr: Array<linkedlistModelNode>, index: number) {
+  arr[index].state = ElementStates.Default;
+}
+
+function setIncomingValue(
+  arr: Array<linkedlistModelNode>,
+  index: number,
+  inputValue: string | null
+) {
+  arr[index].incomingValue = inputValue;
+}
+
+function setElementForRemoval(arr: Array<linkedlistModelNode>, index: number) {
+  const el = arr[index].value;
+  arr[index] = {
+    value: "",
+    state: ElementStates.Default,
+    incomingValue: el,
+  };
+}
+
 export const ListPage: React.FC = () => {
   const [listModelArray, setListModelArray] =
     useState<linkedlistModelNode[]>(mappedArray);
@@ -46,68 +105,104 @@ export const ListPage: React.FC = () => {
   let userInputIndex = Number(values.enteredIndex);
   const linkedList = new LinkedList<string>(randomArray);
 
-  function handleAddToHead() {
-    // list model operations
+  async function handleAddToHead() {
+    // 1. list model operations
     const arrayCopy = [...listModelArray];
-    arrayCopy.unshift({
-      value: userInputValue,
-      state: ElementStates.Default,
-      incomingValue: null,
-    });
+
+    // 1.1. highlight incoming value
+    setIncomingValue(arrayCopy, 0, userInputValue);
     setListModelArray(arrayCopy);
 
-    // list operations
+    await delay(SHORT_DELAY_IN_MS);
+
+    // 1.2. remove highlighting and add value to the head with modified state
+    setIncomingValue(arrayCopy, 0, null);
+    addToHead(arrayCopy, userInputValue);
+    setListModelArray([...arrayCopy]);
+
+    await delay(SHORT_DELAY_IN_MS);
+
+    // 1.3. change value state from modified to default
+
+    changeColorState(arrayCopy, 0);
+    setListModelArray([...arrayCopy]);
+
+    // 2. list operations
     linkedList.prepend(userInputValue);
     console.log(linkedList.toArray());
   }
 
-  function handleAddToTail() {
-    // list model operations
+  async function handleAddToTail() {
+    // 1. list model operations
     const arrayCopy = [...listModelArray];
-    arrayCopy.push({
-      value: userInputValue,
-      state: ElementStates.Default,
-      incomingValue: null,
-    });
+
+    // 1.1. highlight incoming value
+    setIncomingValue(arrayCopy, arrayCopy.length - 1, userInputValue);
     setListModelArray(arrayCopy);
 
-    // list operations
+    await delay(SHORT_DELAY_IN_MS);
+
+    // 1.2. remove highlighting and add value to the tail with modified state
+    setIncomingValue(arrayCopy, arrayCopy.length - 1, null);
+    addToTail(arrayCopy, userInputValue);
+    setListModelArray([...arrayCopy]);
+
+    await delay(SHORT_DELAY_IN_MS);
+
+    // 1.3. change value state from modified to default
+    changeColorState(arrayCopy, arrayCopy.length - 1);
+    setListModelArray([...arrayCopy]);
+
+    // 2. list operations
     linkedList.append(userInputValue);
     console.log(linkedList.toArray());
   }
 
-  function handleDeleteFromHead() {
+  async function handleDeleteFromHead() {
     // list model operations
     const arrayCopy = [...listModelArray];
-    arrayCopy.shift();
+
+    setElementForRemoval(arrayCopy, 0);
     setListModelArray(arrayCopy);
+
+    await delay(SHORT_DELAY_IN_MS);
+
+    arrayCopy.shift();
+    setListModelArray([...arrayCopy]);
 
     // list operations
     linkedList.deleteHead();
     console.log(linkedList.toArray());
   }
 
-  function handleDeleteFromTail() {
+  async function handleDeleteFromTail() {
     // list model operations
     const arrayCopy = [...listModelArray];
-    arrayCopy.pop();
+
+    setElementForRemoval(arrayCopy, arrayCopy.length - 1);
     setListModelArray(arrayCopy);
+
+    await delay(SHORT_DELAY_IN_MS);
+
+    arrayCopy.pop();
+    setListModelArray([...arrayCopy]);
 
     // list operations
     linkedList.deleteTail();
     console.log(linkedList.toArray());
   }
 
-  function handleAddByIndex() {
+  async function handleAddByIndex() {
     // list model operations
     if (isWithinListSize(userInputIndex, listModelArray)) {
       const arrayCopy = [...listModelArray];
-      arrayCopy.splice(userInputIndex, 0, {
-        value: userInputValue,
-        state: ElementStates.Default,
-        incomingValue: null,
-      });
+      addByIndex(arrayCopy, userInputIndex, userInputValue);
       setListModelArray(arrayCopy);
+
+      await delay(SHORT_DELAY_IN_MS);
+
+      changeColorState(arrayCopy, userInputIndex);
+      setListModelArray([...arrayCopy]);
     }
 
     // list operations
@@ -207,13 +302,17 @@ export const ListPage: React.FC = () => {
             listModelArray.map((el, index) => {
               return (
                 <li className={styles.linkedListElement}>
-                  <Circle
-                    extraClass={styles.secondaryCircle}
-                    letter={""}
-                    isSmall
-                  />
+                  {el.incomingValue && (
+                    <Circle
+                      extraClass={styles.secondaryCircle}
+                      state={ElementStates.Changing}
+                      letter={el.incomingValue}
+                      isSmall
+                    />
+                  )}
                   <Circle
                     letter={el.value}
+                    state={el.state}
                     index={index}
                     extraClass="mr-12 ml-12"
                   />
