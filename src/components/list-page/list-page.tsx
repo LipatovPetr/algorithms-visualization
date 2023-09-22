@@ -49,6 +49,16 @@ export const ListPage: React.FC = () => {
     console.log(linkedList.toArray());
   }
 
+  function handleAddByIndex() {
+    linkedList.addByIndex(values.valueToAdd, Number(values.listIndex));
+    console.log(linkedList.toArray());
+  }
+
+  function handleDeleteByIndex() {
+    linkedList.deleteByIndex(Number(values.listIndex));
+    console.log(linkedList.toArray());
+  }
+
   return (
     <SolutionLayout title="Связный список">
       <form className={styles.form}>
@@ -100,8 +110,18 @@ export const ListPage: React.FC = () => {
             extraClass={styles.input}
             placeholder="Введите индекс"
           />
-          <Button text="Добавить по индексу" type="button" linkedList="big" />
-          <Button text="Удалить по индексу" type="button" linkedList="big" />
+          <Button
+            text="Добавить по индексу"
+            type="button"
+            onClick={handleAddByIndex}
+            linkedList="big"
+          />
+          <Button
+            text="Удалить по индексу"
+            type="button"
+            onClick={handleDeleteByIndex}
+            linkedList="big"
+          />
         </div>
         <ul className={styles.linkedListContainer}>
           {mappedArray &&
