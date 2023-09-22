@@ -42,8 +42,6 @@ const mappedArray: Array<linkedlistModelNode> = randomArray.map((element) => ({
   incomingValue: null,
 }));
 
-function loopHighlightingToIndex() {}
-
 export const ListPage: React.FC = () => {
   const [listModelArray, setListModelArray] =
     useState<linkedlistModelNode[]>(mappedArray);
@@ -53,101 +51,102 @@ export const ListPage: React.FC = () => {
   const linkedList = new LinkedList<string>(randomArray);
 
   async function handleAddToHead() {
-    // 1. list model operations
+    // 1. List model operations
     const arrayCopy = [...listModelArray];
 
-    // 1.1. highlight incoming value
+    // 1.1. Highlight incoming value
     setIncomingValue(arrayCopy, 0, userInputValue);
     setListModelArray(arrayCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
-    // 1.2. remove highlighting and add value to the head with modified state
+    // 1.2. Remove highlighting and add value to the head with modified state
     setIncomingValue(arrayCopy, 0, null);
     addToHead(arrayCopy, userInputValue);
     setListModelArray([...arrayCopy]);
 
     await delay(SHORT_DELAY_IN_MS);
 
-    // 1.3. change value state from modified to default
+    // 1.3. Change value state from modified to default
 
     changeColorState(arrayCopy, 0);
     setListModelArray([...arrayCopy]);
 
-    // 2. list operations
+    // 2. List operations
     linkedList.prepend(userInputValue);
     console.log(linkedList.toArray());
   }
 
   async function handleAddToTail() {
-    // 1. list model operations
+    // 1. List model operations
     const arrayCopy = [...listModelArray];
 
-    // 1.1. highlight incoming value
+    // 1.1. Highlight incoming value
     setIncomingValue(arrayCopy, arrayCopy.length - 1, userInputValue);
     setListModelArray(arrayCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
-    // 1.2. remove highlighting and add value to the tail with modified state
+    // 1.2. Remove highlighting and add value to the tail with modified state
     setIncomingValue(arrayCopy, arrayCopy.length - 1, null);
     addToTail(arrayCopy, userInputValue);
     setListModelArray([...arrayCopy]);
 
     await delay(SHORT_DELAY_IN_MS);
 
-    // 1.3. change value state from modified to default
+    // 1.3. Change value state from modified to default
     changeColorState(arrayCopy, arrayCopy.length - 1);
     setListModelArray([...arrayCopy]);
 
-    // 2. list operations
+    // 2. List operations
     linkedList.append(userInputValue);
     console.log(linkedList.toArray());
   }
 
   async function handleDeleteFromHead() {
-    // 1. list model operations
+    // 1. List model operations
     const arrayCopy = [...listModelArray];
 
-    // 1.1. highlight value to be deleted from head
+    // 1.1. Highlight value to be deleted from head
     setElementForRemoval(arrayCopy, 0);
     setListModelArray(arrayCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
-    // 1.2. deleted value from head
+    // 1.2. Deleted value from head
     arrayCopy.shift();
     setListModelArray([...arrayCopy]);
 
-    // 2. list operations
+    // 2. List operations
     linkedList.deleteHead();
     console.log(linkedList.toArray());
   }
 
   async function handleDeleteFromTail() {
-    // 1. list model operations
+    // 1. List model operations
     const arrayCopy = [...listModelArray];
 
-    // 1.1. highlight value to be deleted from tail
+    // 1.1. Highlight value to be deleted from tail
     setElementForRemoval(arrayCopy, arrayCopy.length - 1);
     setListModelArray(arrayCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
-    // 1.2. deleted value from tail
+    // 1.2. Deleted value from tail
     arrayCopy.pop();
     setListModelArray([...arrayCopy]);
 
-    // 2. list operations
+    // 2. List operations
     linkedList.deleteTail();
     console.log(linkedList.toArray());
   }
 
   async function handleAddByIndex() {
-    // list model operations
+    // 1. List model operations
     if (isWithinListSize(userInputIndex, listModelArray)) {
       const arrayCopy = [...listModelArray];
 
+      // 1.1. Loop though list highlighting elements up to entered index
       for (let i = 0; i <= userInputIndex; i++) {
         arrayCopy[i].incomingValue = userInputValue;
 
@@ -157,36 +156,37 @@ export const ListPage: React.FC = () => {
         }
         setListModelArray([...arrayCopy]);
         await delay(SHORT_DELAY_IN_MS);
-
-        setListModelArray([...arrayCopy]);
       }
 
+      // 1.2. Add value by index, clear incoming value and set modified state
       await delay(SHORT_DELAY_IN_MS);
-
       addByIndex(arrayCopy, userInputIndex, userInputValue);
       setIncomingValue(arrayCopy, userInputIndex + 1, null);
       setListModelArray([...arrayCopy]);
 
       await delay(SHORT_DELAY_IN_MS);
 
+      // 1.3. Clear highlighting state set in a 1.1. loop
       for (let i = 0; i < userInputIndex; i++) {
         arrayCopy[i].state = ElementStates.Default;
         setListModelArray([...arrayCopy]);
       }
 
+      // 1.4. Change value state from modified to default
       changeColorState(arrayCopy, userInputIndex);
       setListModelArray([...arrayCopy]);
     }
 
-    // list operations
+    // 2. list operations
     linkedList.addByIndex(userInputValue, userInputIndex);
     console.log(linkedList.toArray());
   }
 
   async function handleDeleteByIndex() {
-    // list model operations
+    // 1. List model operations
     const arrayCopy = [...listModelArray];
 
+    // 1.1. Loop though list highlighting elements up to entered index
     for (let i = 0; i <= userInputIndex; i++) {
       if (i > 0) {
         arrayCopy[i - 1].state = ElementStates.Changing;
@@ -197,22 +197,26 @@ export const ListPage: React.FC = () => {
       setListModelArray([...arrayCopy]);
     }
 
+    // 1.2. Highlight element as being removed
     setElementForRemoval(arrayCopy, userInputIndex);
     setListModelArray([...arrayCopy]);
 
     await delay(SHORT_DELAY_IN_MS);
 
-    arrayCopy.splice(Number(userInputIndex), 1);
+    // 1.3. Remove value by index
+    arrayCopy.splice(userInputIndex, 1);
     setListModelArray(arrayCopy);
 
     await delay(SHORT_DELAY_IN_MS);
+
+    // 1.4. Clear highlighting state set in a 1.1. loop
 
     for (let i = 0; i < userInputIndex; i++) {
       arrayCopy[i].state = ElementStates.Default;
       setListModelArray([...arrayCopy]);
     }
 
-    // list operations
+    // 2. List operations
     linkedList.deleteByIndex(Number(userInputIndex));
     console.log(linkedList.toArray());
   }
