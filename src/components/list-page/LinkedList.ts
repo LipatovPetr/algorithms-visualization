@@ -93,27 +93,25 @@ export class LinkedList<T> implements ILinkedList<T> {
       throw new Error(`Неверный индекс. Допустимый диапазон [0, ${this.size}]`);
     }
 
-    const node = new Node(value);
-
     if (index === 0) {
-      // Если индекс равен 0, добавляем элемент в начало списка
+      // If the index is 0, add the element to the beginning of the list
       this.prepend(value);
     } else if (index === this.size) {
-      // Если индекс равен размеру списка, добавляем элемент в конец списка
+      // If the index is equal to the size of the list, add the element to the end of the list
       this.append(value);
     } else {
-      // Начнем с головы списка
+      // Start from the head of the list
       let curr = this.head;
       let currIndex = 0;
 
-      // Двигаемся до узла, предшествующего заданному индексу
+      // Move to the node preceding the specified index
       while (curr && currIndex !== index - 1) {
         curr = curr.next;
         currIndex++;
       }
 
       if (curr) {
-        // Если curr не null, вставляем новый узел между curr и curr.next
+        // If curr is not null, insert the new node between curr and curr.next
         const newNode = new Node(value, curr.next);
         curr.next = newNode;
         this.size++;
@@ -131,24 +129,24 @@ export class LinkedList<T> implements ILinkedList<T> {
     let deletedValue: T | undefined;
 
     if (index === 0) {
-      // Если индекс равен 0, удаляем голову списка
+      // If the index is 0, delete the head of the list
       deletedValue = this.deleteHead();
     } else if (index === this.size - 1) {
-      // Если индекс равен размеру списка - 1, удаляем хвост списка
+      // If the index is equal to the size of the list - 1, delete the tail of the list
       deletedValue = this.deleteTail();
     } else {
-      // Начнем с головы списка
+      // Start from the head of the list
       let curr = this.head;
       let currIndex = 0;
 
-      // Двигаемся до узла, предшествующего заданному индексу
+      // Move to the node preceding the specified index
       while (curr && currIndex !== index - 1) {
         curr = curr.next;
         currIndex++;
       }
 
       if (curr && curr.next) {
-        // Если curr и curr.next не null, удаляем узел curr.next и возвращаем его значение
+        // // If curr and curr.next are not null, we remove the curr.next node and return its value.
         const deletedNode = curr.next;
         curr.next = curr.next.next;
         this.size--;
