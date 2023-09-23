@@ -45,14 +45,14 @@ export function addByIndex(
   });
 }
 
-export function changeColorState(
+export function changeNodeColor(
   arr: Array<linkedlistModelNode>,
   index: number
 ) {
   arr[index].state = ElementStates.Default;
 }
 
-export function setIncomingValue(
+export function highlightIncomingValue(
   arr: Array<linkedlistModelNode>,
   index: number,
   inputValue: string | null

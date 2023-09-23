@@ -8,8 +8,8 @@ import {
   addByIndex,
   addToHead,
   addToTail,
-  changeColorState,
-  setIncomingValue,
+  changeNodeColor,
+  highlightIncomingValue,
   setElementForRemoval,
 } from "../../utils/helpers/linked-list.helpers";
 import { useFormInputs } from "../../hooks/useForm";
@@ -43,7 +43,7 @@ const mappedArray: Array<linkedlistModelNode> = randomArray.map((element) => ({
 }));
 
 export const ListPage: React.FC = () => {
-  const [listModelArray, setListModelArray] =
+  const [listModelArray, setListModel] =
     useState<linkedlistModelNode[]>(mappedArray);
   const { handleChange, values } = useFormInputs();
   let userInputValue = values.enteredValue;
@@ -52,25 +52,25 @@ export const ListPage: React.FC = () => {
 
   async function handleAddToHead() {
     // 1. List model operations
-    const arrayCopy = [...listModelArray];
+    const listModelCopy = [...listModelArray];
 
     // 1.1. Highlight incoming value
-    setIncomingValue(arrayCopy, 0, userInputValue);
-    setListModelArray(arrayCopy);
+    highlightIncomingValue(listModelCopy, 0, userInputValue);
+    setListModel(listModelCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.2. Remove highlighting and add value to the head with modified state
-    setIncomingValue(arrayCopy, 0, null);
-    addToHead(arrayCopy, userInputValue);
-    setListModelArray([...arrayCopy]);
+    highlightIncomingValue(listModelCopy, 0, null);
+    addToHead(listModelCopy, userInputValue);
+    setListModel([...listModelCopy]);
 
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.3. Change value state from modified to default
 
-    changeColorState(arrayCopy, 0);
-    setListModelArray([...arrayCopy]);
+    changeNodeColor(listModelCopy, 0);
+    setListModel([...listModelCopy]);
 
     // 2. List operations
     linkedList.prepend(userInputValue);
@@ -79,24 +79,28 @@ export const ListPage: React.FC = () => {
 
   async function handleAddToTail() {
     // 1. List model operations
-    const arrayCopy = [...listModelArray];
+    const listModelCopy = [...listModelArray];
 
     // 1.1. Highlight incoming value
-    setIncomingValue(arrayCopy, arrayCopy.length - 1, userInputValue);
-    setListModelArray(arrayCopy);
+    highlightIncomingValue(
+      listModelCopy,
+      listModelCopy.length - 1,
+      userInputValue
+    );
+    setListModel(listModelCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.2. Remove highlighting and add value to the tail with modified state
-    setIncomingValue(arrayCopy, arrayCopy.length - 1, null);
-    addToTail(arrayCopy, userInputValue);
-    setListModelArray([...arrayCopy]);
+    highlightIncomingValue(listModelCopy, listModelCopy.length - 1, null);
+    addToTail(listModelCopy, userInputValue);
+    setListModel([...listModelCopy]);
 
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.3. Change value state from modified to default
-    changeColorState(arrayCopy, arrayCopy.length - 1);
-    setListModelArray([...arrayCopy]);
+    changeNodeColor(listModelCopy, listModelCopy.length - 1);
+    setListModel([...listModelCopy]);
 
     // 2. List operations
     linkedList.append(userInputValue);
@@ -105,17 +109,17 @@ export const ListPage: React.FC = () => {
 
   async function handleDeleteFromHead() {
     // 1. List model operations
-    const arrayCopy = [...listModelArray];
+    const listModelCopy = [...listModelArray];
 
     // 1.1. Highlight value to be deleted from head
-    setElementForRemoval(arrayCopy, 0);
-    setListModelArray(arrayCopy);
+    setElementForRemoval(listModelCopy, 0);
+    setListModel(listModelCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.2. Deleted value from head
-    arrayCopy.shift();
-    setListModelArray([...arrayCopy]);
+    listModelCopy.shift();
+    setListModel([...listModelCopy]);
 
     // 2. List operations
     linkedList.deleteHead();
@@ -124,17 +128,17 @@ export const ListPage: React.FC = () => {
 
   async function handleDeleteFromTail() {
     // 1. List model operations
-    const arrayCopy = [...listModelArray];
+    const listModelCopy = [...listModelArray];
 
     // 1.1. Highlight value to be deleted from tail
-    setElementForRemoval(arrayCopy, arrayCopy.length - 1);
-    setListModelArray(arrayCopy);
+    setElementForRemoval(listModelCopy, listModelCopy.length - 1);
+    setListModel(listModelCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.2. Deleted value from tail
-    arrayCopy.pop();
-    setListModelArray([...arrayCopy]);
+    listModelCopy.pop();
+    setListModel([...listModelCopy]);
 
     // 2. List operations
     linkedList.deleteTail();
@@ -144,37 +148,37 @@ export const ListPage: React.FC = () => {
   async function handleAddByIndex() {
     // 1. List model operations
     if (isWithinListSize(userInputIndex, listModelArray)) {
-      const arrayCopy = [...listModelArray];
+      const listModelCopy = [...listModelArray];
 
       // 1.1. Loop though list highlighting elements up to entered index
       for (let i = 0; i <= userInputIndex; i++) {
-        arrayCopy[i].incomingValue = userInputValue;
+        listModelCopy[i].incomingValue = userInputValue;
 
         if (i > 0) {
-          arrayCopy[i - 1].incomingValue = null;
-          arrayCopy[i - 1].state = ElementStates.Changing;
+          listModelCopy[i - 1].incomingValue = null;
+          listModelCopy[i - 1].state = ElementStates.Changing;
         }
-        setListModelArray([...arrayCopy]);
+        setListModel([...listModelCopy]);
         await delay(SHORT_DELAY_IN_MS);
       }
 
       // 1.2. Add value by index, clear incoming value and set modified state
       await delay(SHORT_DELAY_IN_MS);
-      addByIndex(arrayCopy, userInputIndex, userInputValue);
-      setIncomingValue(arrayCopy, userInputIndex + 1, null);
-      setListModelArray([...arrayCopy]);
+      addByIndex(listModelCopy, userInputIndex, userInputValue);
+      highlightIncomingValue(listModelCopy, userInputIndex + 1, null);
+      setListModel([...listModelCopy]);
 
       await delay(SHORT_DELAY_IN_MS);
 
       // 1.3. Clear highlighting state set in a 1.1. loop
       for (let i = 0; i < userInputIndex; i++) {
-        arrayCopy[i].state = ElementStates.Default;
-        setListModelArray([...arrayCopy]);
+        listModelCopy[i].state = ElementStates.Default;
+        setListModel([...listModelCopy]);
       }
 
       // 1.4. Change value state from modified to default
-      changeColorState(arrayCopy, userInputIndex);
-      setListModelArray([...arrayCopy]);
+      changeNodeColor(listModelCopy, userInputIndex);
+      setListModel([...listModelCopy]);
     }
 
     // 2. list operations
@@ -184,36 +188,36 @@ export const ListPage: React.FC = () => {
 
   async function handleDeleteByIndex() {
     // 1. List model operations
-    const arrayCopy = [...listModelArray];
+    const listModelCopy = [...listModelArray];
 
     // 1.1. Loop though list highlighting elements up to entered index
     for (let i = 0; i <= userInputIndex; i++) {
       if (i > 0) {
-        arrayCopy[i - 1].state = ElementStates.Changing;
+        listModelCopy[i - 1].state = ElementStates.Changing;
       }
-      setListModelArray([...arrayCopy]);
+      setListModel([...listModelCopy]);
       await delay(SHORT_DELAY_IN_MS);
 
-      setListModelArray([...arrayCopy]);
+      setListModel([...listModelCopy]);
     }
 
     // 1.2. Highlight element as being removed
-    setElementForRemoval(arrayCopy, userInputIndex);
-    setListModelArray([...arrayCopy]);
+    setElementForRemoval(listModelCopy, userInputIndex);
+    setListModel([...listModelCopy]);
 
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.3. Remove value by index
-    arrayCopy.splice(userInputIndex, 1);
-    setListModelArray(arrayCopy);
+    listModelCopy.splice(userInputIndex, 1);
+    setListModel(listModelCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.4. Clear highlighting state set in a 1.1. loop
 
     for (let i = 0; i < userInputIndex; i++) {
-      arrayCopy[i].state = ElementStates.Default;
-      setListModelArray([...arrayCopy]);
+      listModelCopy[i].state = ElementStates.Default;
+      setListModel([...listModelCopy]);
     }
 
     // 2. List operations
@@ -309,7 +313,7 @@ export const ListPage: React.FC = () => {
           {listModelArray &&
             listModelArray.map((el, index) => {
               return (
-                <li className={styles.linkedListElement}>
+                <li className={styles.linkedListElement} key={index}>
                   {el.incomingValue && (
                     <Circle
                       extraClass={styles.secondaryCircle}
