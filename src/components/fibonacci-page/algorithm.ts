@@ -6,7 +6,6 @@ import { Dispatch, SetStateAction } from "react";
 
 function cacheDecorator(func: (arg: number) => number) {
   const cache = new Map();
-
   return function (arg: number) {
     if (cache.has(arg)) {
       return cache.get(arg);
