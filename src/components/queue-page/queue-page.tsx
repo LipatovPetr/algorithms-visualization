@@ -14,6 +14,7 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 const queue = new Queue<string>(QUEUE_LENGTH);
 
 export const QueuePage: React.FC = () => {
+  const [isLoding, setLoadingState] = useState(false);
   const { handleChange, values } = useFormInputs();
   const [queueArray, setQueueArray] = useState([...queue.getQueue()]);
   const [head, setHead] = useState<number>(queue.getHead());
@@ -23,6 +24,8 @@ export const QueuePage: React.FC = () => {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    setLoadingState(true);
 
     setHighlightedIndex(tail);
     await delay(SHORT_DELAY_IN_MS);
@@ -34,9 +37,13 @@ export const QueuePage: React.FC = () => {
 
     values.queueElement = "";
     setHighlightedIndex(-1);
+
+    setLoadingState(false);
   }
 
   async function handleDelete() {
+    setLoadingState(true);
+
     setHighlightedIndex(head);
     await delay(SHORT_DELAY_IN_MS);
 
@@ -46,6 +53,8 @@ export const QueuePage: React.FC = () => {
     setQueueLength(queue.getLength());
 
     setHighlightedIndex(-1);
+
+    setLoadingState(false);
   }
 
   function handleClear() {
@@ -74,17 +83,20 @@ export const QueuePage: React.FC = () => {
             disabled={
               QUEUE_LENGTH === tail || !values.queueElement ? true : false
             }
+            isLoader={isLoding}
           />
           <Button
             text={"Удалить"}
             onClick={handleDelete}
             disabled={!queueLength}
+            isLoader={isLoding}
           />
         </div>
         <Button
           text={"Очистить"}
           onClick={handleClear}
           disabled={!queueLength && !head}
+          isLoader={isLoding}
         />
       </form>
       <div className={styles.queueContainer}>

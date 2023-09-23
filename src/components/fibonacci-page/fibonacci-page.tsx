@@ -9,12 +9,15 @@ import { Circle } from "../ui/circle/circle";
 import { generateFibonacciSequence } from "./algorithm";
 
 export const FibonacciPage: React.FC = () => {
+  const [isLoding, setLoadingState] = useState(false);
   const { handleChange, values } = useFormInputs();
   const [fibArray, setFibArray] = useState<number[]>([]);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    generateFibonacciSequence(Number(values.value), setFibArray);
+    setLoadingState(true);
+    await generateFibonacciSequence(Number(values.value), setFibArray);
+    setLoadingState(false);
   }
 
   return (
@@ -34,6 +37,7 @@ export const FibonacciPage: React.FC = () => {
           extraClass={styles.submitButton}
           text="Рассчитать"
           disabled={!values.value || Number(values.value) > MAX_VALUE}
+          isLoader={isLoding}
         />
       </form>
       <div className={styles.circlesContainer}>

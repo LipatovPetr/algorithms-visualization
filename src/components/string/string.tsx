@@ -12,13 +12,16 @@ import { DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
 
 export const StringComponent: React.FC = () => {
+  const [isLoding, setLoadingState] = useState(false);
   const [mappedString, setMappedString] =
     useState<stringMappedToCharsWithState>([]);
   const { handleChange, values } = useFormInputs();
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    reverseString(values.string, setMappedString, DELAY_IN_MS);
+    setLoadingState(true);
+    await reverseString(values.string, setMappedString, DELAY_IN_MS);
+    setLoadingState(false);
   }
 
   return (
@@ -37,6 +40,7 @@ export const StringComponent: React.FC = () => {
           extraClass={styles.submitButton}
           text="Развернуть"
           disabled={!values.string}
+          isLoader={isLoding}
         />
       </form>
 

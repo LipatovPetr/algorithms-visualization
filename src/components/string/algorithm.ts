@@ -34,8 +34,8 @@ export async function reverseString(
   let processedString = mapStringToArray(string);
   const len = processedString.length;
 
+  // highlight changing elements
   for (let i = 0; i < len / 2; i++) {
-    // highlight changing elements
     processedString[i].state = ElementStates.Changing;
     processedString[len - 1 - i].state = ElementStates.Changing;
     stateSetter([...processedString]);
