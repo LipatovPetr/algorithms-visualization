@@ -13,7 +13,8 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { MIN_NUMBER, MAX_NUMBER, MIN_LENGTH, MAX_LENGTH } from "./constants";
 
 export const SortingPage: React.FC = () => {
-  const [sortingOption, setSortingOption] = useState("Select");
+  const [isLoding, setLoadingState] = useState(false);
+  const [sortingOption, setSortingOption] = useState("select");
   const [sortedArray, setSortedArray] = useState<Array<elementWithState>>([]);
 
   useEffect(function generateArrayOnLoad() {
@@ -27,6 +28,37 @@ export const SortingPage: React.FC = () => {
     setSortedArray(mappedArray);
   }, []);
 
+  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSortingOption(e.target.value);
+  };
+
+  async function handleSortAcs() {
+    setLoadingState(true);
+    switch (sortingOption) {
+      case "select":
+        await selectSort(sortedArray, setSortedArray, 100, "asc");
+        break;
+      case "bubble":
+        await bubbleSort(sortedArray, setSortedArray, 100, "asc");
+        break;
+    }
+    setLoadingState(false);
+  }
+
+  async function handleSortDesc() {
+    setLoadingState(true);
+
+    switch (sortingOption) {
+      case "Select":
+        await selectSort(sortedArray, setSortedArray, 100, "desc");
+        break;
+      case "bubble":
+        await bubbleSort(sortedArray, setSortedArray, 100, "desc");
+        break;
+    }
+    setLoadingState(false);
+  }
+
   const handleGenerateNewArrayClick = (e: MouseEvent<HTMLButtonElement>) => {
     const randomArray = generateRandomArray(
       MIN_NUMBER,
@@ -38,10 +70,6 @@ export const SortingPage: React.FC = () => {
     setSortedArray(mappedArray);
   };
 
-  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSortingOption(e.target.value);
-  };
-
   return (
     <SolutionLayout title="Сортировка массива">
       <div className={styles.inputsContainer}>
@@ -49,16 +77,16 @@ export const SortingPage: React.FC = () => {
           <RadioInput
             name="sorting"
             label={"Выбор"}
-            value="Select"
+            value="select"
             onChange={handleRadioChange}
-            checked={sortingOption === "Select"}
+            checked={sortingOption === "select"}
           />
           <RadioInput
             name="sorting"
             label={"Пузырёк"}
-            value="Buble"
+            value="bubble"
             onChange={handleRadioChange}
-            checked={sortingOption === "Buble"}
+            checked={sortingOption === "bubble"}
           />
         </div>
 
@@ -66,20 +94,22 @@ export const SortingPage: React.FC = () => {
           <Button
             text={"По возрастанию"}
             sorting={Direction.Ascending}
-            onClick={() => {
-              bubbleSort(sortedArray, setSortedArray, 100, "asc");
-            }}
+            onClick={handleSortAcs}
+            isLoader={isLoding}
           />
           <Button
             text={"По убыванию"}
             sorting={Direction.Descending}
-            onClick={() => {
-              selectSort(sortedArray, setSortedArray, 100, "desc");
-            }}
+            onClick={handleSortDesc}
+            isLoader={isLoding}
           />
         </div>
 
-        <Button text={"Новый массив"} onClick={handleGenerateNewArrayClick} />
+        <Button
+          text={"Новый массив"}
+          onClick={handleGenerateNewArrayClick}
+          isLoader={isLoding}
+        />
       </div>
       <div className={styles.graphContainer}>
         {sortedArray &&
