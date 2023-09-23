@@ -3,7 +3,7 @@ import styles from "./stack-page.module.css";
 import { Button } from "../ui/button/button";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
-import { useFormInputs } from "../hooks/useForm";
+import { useFormInputs } from "../../hooks/useForm";
 import { stack } from "./stack";
 import { Circle } from "../ui/circle/circle";
 import { MAX_LENGTH } from "./constants";

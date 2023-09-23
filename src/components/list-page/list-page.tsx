@@ -12,7 +12,7 @@ import {
   setIncomingValue,
   setElementForRemoval,
 } from "../../utils/helpers/linked-list.helpers";
-import { useFormInputs } from "../hooks/useForm";
+import { useFormInputs } from "../../hooks/useForm";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ArrowIcon } from "../ui/icons/arrow-icon";

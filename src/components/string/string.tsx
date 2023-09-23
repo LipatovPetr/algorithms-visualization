@@ -5,7 +5,7 @@ import { mapStringToArray, reverseString, swapChars } from "./algorithm";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
-import { useFormInputs } from "../hooks/useForm";
+import { useFormInputs } from "../../hooks/useForm";
 import { Circle } from "../ui/circle/circle";
 import { MAX_LENGTH } from "./constants";
 import { DELAY_IN_MS } from "../../constants/delays";

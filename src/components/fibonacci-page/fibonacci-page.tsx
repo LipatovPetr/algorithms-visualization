@@ -4,7 +4,7 @@ import { Button } from "../ui/button/button";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { MAX_VALUE } from "./constants";
-import { useFormInputs } from "../hooks/useForm";
+import { useFormInputs } from "../../hooks/useForm";
 import { Circle } from "../ui/circle/circle";
 import { generateFibonacciSequence } from "./algorithm";
 

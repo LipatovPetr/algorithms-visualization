@@ -4,7 +4,7 @@ import { Button } from "../ui/button/button";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { MAX_INPUT_LENGTH, QUEUE_LENGTH } from "./constants";
-import { useFormInputs } from "../hooks/useForm";
+import { useFormInputs } from "../../hooks/useForm";
 import { Queue } from "./queue";
 import { Circle } from "../ui/circle/circle";
 import { isHead, isTail } from "../../utils/helpers/queue.helpers";
