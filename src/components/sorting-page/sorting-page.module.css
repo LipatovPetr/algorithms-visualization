@@ -17,6 +17,7 @@
 }
 
 .graphContainer {
+  min-height: 330px;
   margin-top: 48px;
   display: flex;
   justify-content: center;
