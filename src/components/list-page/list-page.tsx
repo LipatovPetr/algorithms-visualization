@@ -227,6 +227,7 @@ export const ListPage: React.FC = () => {
         <div className={styles.upperRow}>
           <Input
             name="enteredValue"
+            value={values.enteredValue || ""}
             maxLength={MAX_INPUT_LENGTH}
             onChange={handleChange}
             extraClass={styles.input}
@@ -271,6 +272,7 @@ export const ListPage: React.FC = () => {
           <Input
             name="enteredIndex"
             type="number"
+            value={values.enteredIndex || ""}
             min={0}
             max={listModelArray.length - 1}
             onChange={handleChange}
@@ -285,7 +287,9 @@ export const ListPage: React.FC = () => {
             disabled={
               !values.enteredValue ||
               !values.enteredIndex ||
-              listModelArray.length >= MAX_ARR_LENGTH
+              listModelArray.length >= MAX_ARR_LENGTH ||
+              userInputIndex > listModelArray.length - 1 ||
+              userInputIndex < 0
             }
           />
           <Button
@@ -296,7 +300,8 @@ export const ListPage: React.FC = () => {
             disabled={
               !values.enteredIndex ||
               listModelArray.length < 1 ||
-              userInputIndex > listModelArray.length - 1
+              userInputIndex > listModelArray.length - 1 ||
+              userInputIndex < 0
             }
           />
         </div>
