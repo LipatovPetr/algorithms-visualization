@@ -25,8 +25,7 @@ export const FibonacciPage: React.FC = () => {
           name="value"
           value={values.value || ""}
           onChange={handleChange}
-          max={19}
-          maxLength={2}
+          max={MAX_VALUE}
           isLimitText
           min={0}
         />
@@ -34,6 +33,7 @@ export const FibonacciPage: React.FC = () => {
           type="submit"
           extraClass={styles.submitButton}
           text="Рассчитать"
+          disabled={!values.value || Number(values.value) > MAX_VALUE}
         />
       </form>
       <div className={styles.circlesContainer}>

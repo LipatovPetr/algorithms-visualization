@@ -272,6 +272,7 @@ export const ListPage: React.FC = () => {
             name="enteredIndex"
             type="number"
             min={0}
+            max={listModelArray.length - 1}
             onChange={handleChange}
             extraClass={styles.input}
             placeholder="Введите индекс"
@@ -292,7 +293,11 @@ export const ListPage: React.FC = () => {
             type="button"
             onClick={handleDeleteByIndex}
             linkedList="big"
-            disabled={!values.enteredIndex || listModelArray.length < 1}
+            disabled={
+              !values.enteredIndex ||
+              listModelArray.length < 1 ||
+              userInputIndex > listModelArray.length - 1
+            }
           />
         </div>
         <ul className={styles.linkedListContainer}>

@@ -36,6 +36,7 @@ export const StringComponent: React.FC = () => {
           type="submit"
           extraClass={styles.submitButton}
           text="Развернуть"
+          disabled={!values.string}
         />
       </form>
 
