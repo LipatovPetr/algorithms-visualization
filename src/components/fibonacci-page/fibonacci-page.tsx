@@ -20,19 +20,16 @@ export const FibonacciPage: React.FC = () => {
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
       <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.inputContainer}>
-          <Input
-            type="number"
-            name="value"
-            value={values.value || ""}
-            onChange={handleChange}
-            max={19}
-            min={0}
-          />
-          <p
-            className={styles.caption}
-          >{`Максимальное число — ${MAX_VALUE}`}</p>
-        </div>
+        <Input
+          type="number"
+          name="value"
+          value={values.value || ""}
+          onChange={handleChange}
+          max={19}
+          maxLength={2}
+          isLimitText
+          min={0}
+        />
         <Button
           type="submit"
           extraClass={styles.submitButton}

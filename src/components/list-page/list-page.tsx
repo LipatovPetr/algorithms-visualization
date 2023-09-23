@@ -225,17 +225,15 @@ export const ListPage: React.FC = () => {
     <SolutionLayout title="Связный список">
       <form className={styles.form}>
         <div className={styles.upperRow}>
-          <div>
-            <Input
-              name="enteredValue"
-              onChange={handleChange}
-              extraClass={styles.input}
-              placeholder="Введите значение"
-            />
-            <p
-              className={styles.caption}
-            >{`Максимум — ${MAX_INPUT_LENGTH} символов`}</p>
-          </div>
+          <Input
+            name="enteredValue"
+            maxLength={MAX_INPUT_LENGTH}
+            onChange={handleChange}
+            extraClass={styles.input}
+            placeholder="Введите значение"
+            isLimitText
+          />
+
           <Button
             text="Добавить в head"
             type="button"

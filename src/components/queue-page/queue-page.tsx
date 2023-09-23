@@ -60,17 +60,14 @@ export const QueuePage: React.FC = () => {
     <SolutionLayout title="Очередь">
       <form className={styles.inputsContainer} onSubmit={handleSubmit}>
         <div className={styles.innerContainer}>
-          <div>
-            <Input
-              name="queueElement"
-              maxLength={MAX_INPUT_LENGTH}
-              value={values.queueElement || ""}
-              onChange={handleChange}
-            />
-            <p
-              className={styles.caption}
-            >{`Максимум — ${MAX_INPUT_LENGTH} символов`}</p>
-          </div>
+          <Input
+            name="queueElement"
+            maxLength={MAX_INPUT_LENGTH}
+            value={values.queueElement || ""}
+            onChange={handleChange}
+            isLimitText
+          />
+
           <Button
             type="submit"
             text={"Добавить"}

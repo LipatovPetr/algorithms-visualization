@@ -24,17 +24,14 @@ export const StringComponent: React.FC = () => {
   return (
     <SolutionLayout title="Строка">
       <form className={styles.form} onSubmit={handleSubmit}>
-        <div>
-          <Input
-            name="string"
-            value={values.string || ""}
-            onChange={handleChange}
-            maxLength={MAX_LENGTH}
-          />
-          <p
-            className={styles.caption}
-          >{`Максимум — ${MAX_LENGTH} символов`}</p>
-        </div>
+        <Input
+          name="string"
+          value={values.string || ""}
+          onChange={handleChange}
+          maxLength={MAX_LENGTH}
+          isLimitText
+        />
+
         <Button
           type="submit"
           extraClass={styles.submitButton}

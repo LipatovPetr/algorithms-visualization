@@ -46,17 +46,14 @@ export const StackPage: React.FC = () => {
     <SolutionLayout title="Стек">
       <form onSubmit={handleSubmit} className={styles.inputsContainer}>
         <div className={styles.innerContainer}>
-          <div>
-            <Input
-              name="stackElement"
-              maxLength={MAX_LENGTH}
-              value={values.stackElement || ""}
-              onChange={handleChange}
-            />
-            <p
-              className={styles.caption}
-            >{`Максимум — ${MAX_LENGTH} символов`}</p>
-          </div>
+          <Input
+            name="stackElement"
+            maxLength={MAX_LENGTH}
+            value={values.stackElement || ""}
+            onChange={handleChange}
+            isLimitText
+          />
+
           <Button
             text={"Добавить"}
             type="submit"
