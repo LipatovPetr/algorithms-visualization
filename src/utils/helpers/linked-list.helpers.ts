@@ -1,5 +1,8 @@
 import { linkedlistModelNode } from "../../components/list-page/types";
 import { ElementStates } from "../../types/element-states";
+import { Dispatch, SetStateAction } from "react";
+import { delay } from "..";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export function isWithinListSize(
   index: number,
@@ -70,4 +73,38 @@ export function setElementForRemoval(
     state: ElementStates.Default,
     incomingValue: el,
   };
+}
+
+export async function loopHighlightingNodesAndIncomingValue(
+  arr: Array<linkedlistModelNode>,
+  index: number,
+  value: string,
+  stateSetter: Dispatch<SetStateAction<linkedlistModelNode[]>>
+) {
+  for (let i = 0; i <= index; i++) {
+    arr[i].incomingValue = value;
+
+    if (i > 0) {
+      arr[i - 1].incomingValue = null;
+      arr[i - 1].state = ElementStates.Changing;
+    }
+    stateSetter([...arr]);
+    await delay(SHORT_DELAY_IN_MS);
+  }
+}
+
+export async function loopHighlightingNodes(
+  arr: Array<linkedlistModelNode>,
+  index: number,
+  stateSetter: Dispatch<SetStateAction<linkedlistModelNode[]>>
+) {
+  for (let i = 0; i <= index; i++) {
+    if (i > 0) {
+      arr[i - 1].state = ElementStates.Changing;
+    }
+    stateSetter([...arr]);
+    await delay(SHORT_DELAY_IN_MS);
+
+    // stateSetter([...arr]);
+  }
 }

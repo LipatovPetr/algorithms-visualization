@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
 import { linkedlistModelNode } from "./types";
@@ -11,6 +11,8 @@ import {
   changeNodeColor,
   highlightIncomingValue,
   setElementForRemoval,
+  loopHighlightingNodesAndIncomingValue,
+  loopHighlightingNodes,
 } from "../../utils/helpers/linked-list.helpers";
 import { useFormInputs } from "../../hooks/useForm";
 import { Button } from "../ui/button/button";
@@ -200,16 +202,13 @@ export const ListPage: React.FC = () => {
       const listModelCopy = [...listModelArray];
 
       // 1.1. Loop though list highlighting elements up to entered index
-      for (let i = 0; i <= userInputIndex; i++) {
-        listModelCopy[i].incomingValue = userInputValue;
 
-        if (i > 0) {
-          listModelCopy[i - 1].incomingValue = null;
-          listModelCopy[i - 1].state = ElementStates.Changing;
-        }
-        setListModel([...listModelCopy]);
-        await delay(SHORT_DELAY_IN_MS);
-      }
+      await loopHighlightingNodesAndIncomingValue(
+        listModelCopy,
+        userInputIndex,
+        userInputValue,
+        setListModel
+      );
 
       // 1.2. Add value by index, clear incoming value and set modified state
       await delay(SHORT_DELAY_IN_MS);
@@ -220,6 +219,7 @@ export const ListPage: React.FC = () => {
       await delay(SHORT_DELAY_IN_MS);
 
       // 1.3. Clear highlighting state set in a 1.1. loop
+
       for (let i = 0; i < userInputIndex; i++) {
         listModelCopy[i].state = ElementStates.Default;
         setListModel([...listModelCopy]);
@@ -250,15 +250,8 @@ export const ListPage: React.FC = () => {
     const listModelCopy = [...listModelArray];
 
     // 1.1. Loop though list highlighting elements up to entered index
-    for (let i = 0; i <= userInputIndex; i++) {
-      if (i > 0) {
-        listModelCopy[i - 1].state = ElementStates.Changing;
-      }
-      setListModel([...listModelCopy]);
-      await delay(SHORT_DELAY_IN_MS);
 
-      setListModel([...listModelCopy]);
-    }
+    await loopHighlightingNodes(listModelCopy, userInputIndex, setListModel);
 
     // 1.2. Highlight element as being removed
     setElementForRemoval(listModelCopy, userInputIndex);
