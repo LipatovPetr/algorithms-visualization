@@ -3,6 +3,7 @@ import { ElementStates } from "../../types/element-states";
 import { Dispatch, SetStateAction } from "react";
 import { delay } from "..";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { HEAD, TAIL } from "../../constants/element-captions";
 
 export function isWithinListSize(
   index: number,
@@ -104,7 +105,13 @@ export async function loopHighlightingNodes(
     }
     stateSetter([...arr]);
     await delay(SHORT_DELAY_IN_MS);
-
-    // stateSetter([...arr]);
   }
+}
+
+export function isHead(index: number) {
+  return index === 0 ? HEAD : null;
+}
+
+export function isTail(arr: Array<linkedlistModelNode>, index: number) {
+  return index === arr.length - 1 ? TAIL : null;
 }

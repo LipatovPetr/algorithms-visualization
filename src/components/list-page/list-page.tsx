@@ -13,6 +13,8 @@ import {
   setElementForRemoval,
   loopHighlightingNodesAndIncomingValue,
   loopHighlightingNodes,
+  isHead,
+  isTail,
 } from "../../utils/helpers/linked-list.helpers";
 import { useFormInputs } from "../../hooks/useForm";
 import { Button } from "../ui/button/button";
@@ -389,6 +391,8 @@ export const ListPage: React.FC = () => {
                     letter={el.value}
                     state={el.state}
                     index={index}
+                    head={isHead(index)}
+                    tail={isTail(listModelArray, index)}
                     extraClass="mr-12 ml-12"
                   />
                   {index < listModelArray.length - 1 && <ArrowIcon />}
