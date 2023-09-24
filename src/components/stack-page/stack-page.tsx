@@ -12,12 +12,18 @@ import { delay, setColorState } from "../../utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const StackPage: React.FC = () => {
+  const [isLoding, setLoadingState] = useState({
+    addition: false,
+    deletion: false,
+  });
   const { handleChange, values } = useFormInputs();
   const [stackArray, setStackArray] = useState<string[]>([]);
   const [lastElementIndex, setLastElementIndex] = useState<number>(0);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    setLoadingState((prevState) => ({ ...prevState, addition: true }));
 
     stack.push(values.stackElement);
     values.stackElement = "";
@@ -26,15 +32,21 @@ export const StackPage: React.FC = () => {
     await delay(SHORT_DELAY_IN_MS);
 
     setLastElementIndex(lastElementIndex + 1);
+
+    setLoadingState((prevState) => ({ ...prevState, addition: false }));
   }
 
   async function handleDelete() {
+    setLoadingState((prevState) => ({ ...prevState, deletion: true }));
+
     setLastElementIndex(lastElementIndex - 1);
 
     await delay(SHORT_DELAY_IN_MS);
 
     stack.pop();
     setStackArray([...stack.getStack()]);
+
+    setLoadingState((prevState) => ({ ...prevState, deletion: false }));
   }
 
   function handleClear() {
@@ -57,11 +69,14 @@ export const StackPage: React.FC = () => {
           <Button
             text={"Добавить"}
             type="submit"
+            isLoader={isLoding.addition}
             disabled={values.stackElement ? false : true}
           />
           <Button
             text={"Удалить"}
+            type="button"
             onClick={handleDelete}
+            isLoader={isLoding.deletion}
             disabled={stackArray.length ? false : true}
           />
         </div>

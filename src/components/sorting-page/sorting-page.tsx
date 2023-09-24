@@ -13,7 +13,10 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { MIN_NUMBER, MAX_NUMBER, MIN_LENGTH, MAX_LENGTH } from "./constants";
 
 export const SortingPage: React.FC = () => {
-  const [isLoding, setLoadingState] = useState(false);
+  const [isLoding, setLoadingState] = useState({
+    ascendingSort: false,
+    descendingSort: false,
+  });
   const [sortingOption, setSortingOption] = useState("select");
   const [sortedArray, setSortedArray] = useState<Array<elementWithState>>([]);
 
@@ -33,7 +36,10 @@ export const SortingPage: React.FC = () => {
   };
 
   async function handleSortAcs() {
-    setLoadingState(true);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      ascendingSort: true,
+    }));
     switch (sortingOption) {
       case "select":
         await selectSort(sortedArray, setSortedArray, 100, "asc");
@@ -42,21 +48,30 @@ export const SortingPage: React.FC = () => {
         await bubbleSort(sortedArray, setSortedArray, 100, "asc");
         break;
     }
-    setLoadingState(false);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      ascendingSort: false,
+    }));
   }
 
   async function handleSortDesc() {
-    setLoadingState(true);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      descendingSort: true,
+    }));
 
     switch (sortingOption) {
-      case "Select":
+      case "select":
         await selectSort(sortedArray, setSortedArray, 100, "desc");
         break;
       case "bubble":
         await bubbleSort(sortedArray, setSortedArray, 100, "desc");
         break;
     }
-    setLoadingState(false);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      descendingSort: false,
+    }));
   }
 
   const handleGenerateNewArrayClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -95,20 +110,22 @@ export const SortingPage: React.FC = () => {
             text={"По возрастанию"}
             sorting={Direction.Ascending}
             onClick={handleSortAcs}
-            isLoader={isLoding}
+            isLoader={isLoding.ascendingSort}
+            disabled={isLoding.descendingSort}
           />
           <Button
             text={"По убыванию"}
             sorting={Direction.Descending}
             onClick={handleSortDesc}
-            isLoader={isLoding}
+            isLoader={isLoding.descendingSort}
+            disabled={isLoding.ascendingSort}
           />
         </div>
 
         <Button
           text={"Новый массив"}
           onClick={handleGenerateNewArrayClick}
-          isLoader={isLoding}
+          disabled={isLoding.ascendingSort || isLoding.descendingSort}
         />
       </div>
       <div className={styles.graphContainer}>

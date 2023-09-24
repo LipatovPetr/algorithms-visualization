@@ -43,8 +43,14 @@ const mappedArray: Array<linkedlistModelNode> = randomArray.map((element) => ({
 }));
 
 export const ListPage: React.FC = () => {
-  const [isLoding, setLoadingState] = useState(false);
-
+  const [isLoding, setLoadingState] = useState({
+    additionToHead: false,
+    additionToTail: false,
+    additionByIndex: false,
+    deletionFromHead: false,
+    deletionFromTail: false,
+    deletionByIndex: false,
+  });
   const [listModelArray, setListModel] =
     useState<linkedlistModelNode[]>(mappedArray);
   const { handleChange, values } = useFormInputs();
@@ -53,7 +59,10 @@ export const ListPage: React.FC = () => {
   const linkedList = new LinkedList<string>(randomArray);
 
   async function handleAddToHead() {
-    setLoadingState(true);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      additionToHead: true,
+    }));
 
     // 1. List model operations
     const listModelCopy = [...listModelArray];
@@ -79,11 +88,17 @@ export const ListPage: React.FC = () => {
     // 2. List operations
     linkedList.prepend(userInputValue);
 
-    setLoadingState(false);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      additionToHead: false,
+    }));
   }
 
   async function handleAddToTail() {
-    setLoadingState(true);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      additionToTail: true,
+    }));
 
     // 1. List model operations
     const listModelCopy = [...listModelArray];
@@ -112,11 +127,17 @@ export const ListPage: React.FC = () => {
     // 2. List operations
     linkedList.append(userInputValue);
 
-    setLoadingState(false);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      additionToTail: false,
+    }));
   }
 
   async function handleDeleteFromHead() {
-    setLoadingState(true);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      deletionFromHead: true,
+    }));
 
     // 1. List model operations
     const listModelCopy = [...listModelArray];
@@ -134,11 +155,17 @@ export const ListPage: React.FC = () => {
     // 2. List operations
     linkedList.deleteHead();
 
-    setLoadingState(false);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      deletionFromHead: false,
+    }));
   }
 
   async function handleDeleteFromTail() {
-    setLoadingState(true);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      deletionFromTail: true,
+    }));
 
     // 1. List model operations
     const listModelCopy = [...listModelArray];
@@ -156,11 +183,17 @@ export const ListPage: React.FC = () => {
     // 2. List operations
     linkedList.deleteTail();
 
-    setLoadingState(false);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      deletionFromTail: false,
+    }));
   }
 
   async function handleAddByIndex() {
-    setLoadingState(true);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      additionByIndex: true,
+    }));
 
     // 1. List model operations
     if (isWithinListSize(userInputIndex, listModelArray)) {
@@ -201,11 +234,17 @@ export const ListPage: React.FC = () => {
     linkedList.addByIndex(userInputValue, userInputIndex);
     console.log(linkedList.toArray());
 
-    setLoadingState(false);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      additionByIndex: false,
+    }));
   }
 
   async function handleDeleteByIndex() {
-    setLoadingState(true);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      deletionByIndex: true,
+    }));
 
     // 1. List model operations
     const listModelCopy = [...listModelArray];
@@ -244,7 +283,10 @@ export const ListPage: React.FC = () => {
     linkedList.deleteByIndex(Number(userInputIndex));
     console.log(linkedList.toArray());
 
-    setLoadingState(false);
+    setLoadingState((prevState) => ({
+      ...prevState,
+      deletionByIndex: false,
+    }));
   }
 
   return (
@@ -266,7 +308,7 @@ export const ListPage: React.FC = () => {
             type="button"
             onClick={handleAddToHead}
             linkedList="small"
-            isLoader={isLoding}
+            isLoader={isLoding.additionToHead}
             disabled={
               !userInputValue || listModelArray.length >= MAX_ARR_LENGTH
             }
@@ -276,7 +318,7 @@ export const ListPage: React.FC = () => {
             type="button"
             onClick={handleAddToTail}
             linkedList="small"
-            isLoader={isLoding}
+            isLoader={isLoding.additionToTail}
             disabled={
               !userInputValue || listModelArray.length >= MAX_ARR_LENGTH
             }
@@ -286,7 +328,7 @@ export const ListPage: React.FC = () => {
             type="button"
             onClick={handleDeleteFromHead}
             linkedList="small"
-            isLoader={isLoding}
+            isLoader={isLoding.deletionFromHead}
             disabled={listModelArray.length < 1}
           />
           <Button
@@ -294,7 +336,7 @@ export const ListPage: React.FC = () => {
             type="button"
             onClick={handleDeleteFromTail}
             linkedList="small"
-            isLoader={isLoding}
+            isLoader={isLoding.deletionFromTail}
             disabled={listModelArray.length < 1}
           />
         </div>
@@ -314,7 +356,7 @@ export const ListPage: React.FC = () => {
             type="button"
             onClick={handleAddByIndex}
             linkedList="big"
-            isLoader={isLoding}
+            isLoader={isLoding.additionByIndex}
             disabled={
               !values.enteredValue ||
               !values.enteredIndex ||
@@ -328,7 +370,7 @@ export const ListPage: React.FC = () => {
             type="button"
             onClick={handleDeleteByIndex}
             linkedList="big"
-            isLoader={isLoding}
+            isLoader={isLoding.deletionByIndex}
             disabled={
               !values.enteredIndex ||
               listModelArray.length < 1 ||
