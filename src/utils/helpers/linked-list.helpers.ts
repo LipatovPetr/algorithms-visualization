@@ -113,7 +113,11 @@ export function isHead(index: number, isLoadingState: loadingStates) {
   if (
     index === 0 &&
     !isLoadingState.additionByIndex &&
-    !isLoadingState.deletionByIndex
+    !isLoadingState.additionToHead &&
+    !isLoadingState.additionToTail &&
+    !isLoadingState.deletionByIndex &&
+    !isLoadingState.deletionFromHead &&
+    !isLoadingState.deletionFromTail
   ) {
     return HEAD;
   } else {
@@ -129,7 +133,11 @@ export function isTail(
   if (
     index === arr.length - 1 &&
     !isLoadingState.additionByIndex &&
-    !isLoadingState.deletionByIndex
+    !isLoadingState.additionToHead &&
+    !isLoadingState.additionToTail &&
+    !isLoadingState.deletionByIndex &&
+    !isLoadingState.deletionFromHead &&
+    !isLoadingState.deletionFromTail
   ) {
     return TAIL;
   } else {

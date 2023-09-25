@@ -1,4 +1,5 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
+import cn from "classnames";
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
 import { linkedlistModelNode, loadingStates } from "./types";
@@ -285,6 +286,22 @@ export const ListPage: React.FC = () => {
     }));
   }
 
+  let secondaryCirclePos = "";
+
+  if (
+    isLoding.additionByIndex ||
+    isLoding.additionToHead ||
+    isLoding.additionToTail
+  ) {
+    secondaryCirclePos = styles.addition_pos;
+  } else if (
+    isLoding.deletionByIndex ||
+    isLoding.deletionFromHead ||
+    isLoding.deletionFromTail
+  ) {
+    secondaryCirclePos = styles.deletion_pos;
+  }
+
   return (
     <SolutionLayout title="Связный список">
       <form className={styles.form}>
@@ -382,7 +399,10 @@ export const ListPage: React.FC = () => {
                 <li className={styles.linkedListElement} key={index}>
                   {el.incomingValue && (
                     <Circle
-                      extraClass={styles.secondaryCircle}
+                      extraClass={cn(
+                        styles.secondaryCircle,
+                        secondaryCirclePos
+                      )}
                       state={ElementStates.Changing}
                       letter={el.incomingValue}
                       isSmall
