@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 import { delay } from "..";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { HEAD, TAIL } from "../../constants/element-captions";
+import { loadingStates } from "../../components/list-page/types";
 
 export function isWithinListSize(
   index: number,
@@ -76,7 +77,7 @@ export function setElementForRemoval(
   };
 }
 
-export async function loopHighlightingNodesAndIncomingValue(
+export async function highlightNodesAndIncomingValue(
   arr: Array<linkedlistModelNode>,
   index: number,
   value: string,
@@ -94,7 +95,7 @@ export async function loopHighlightingNodesAndIncomingValue(
   }
 }
 
-export async function loopHighlightingNodes(
+export async function highlightNodes(
   arr: Array<linkedlistModelNode>,
   index: number,
   stateSetter: Dispatch<SetStateAction<linkedlistModelNode[]>>
@@ -108,10 +109,38 @@ export async function loopHighlightingNodes(
   }
 }
 
-export function isHead(index: number) {
-  return index === 0 ? HEAD : null;
+export function isHead(index: number, isLoadingState: loadingStates) {
+  if (
+    index === 0 &&
+    !isLoadingState.additionByIndex &&
+    !isLoadingState.additionToHead &&
+    !isLoadingState.additionToTail &&
+    !isLoadingState.deletionByIndex &&
+    !isLoadingState.deletionFromHead &&
+    !isLoadingState.deletionFromTail
+  ) {
+    return HEAD;
+  } else {
+    return null;
+  }
 }
 
-export function isTail(arr: Array<linkedlistModelNode>, index: number) {
-  return index === arr.length - 1 ? TAIL : null;
+export function isTail(
+  arr: Array<linkedlistModelNode>,
+  index: number,
+  isLoadingState: loadingStates
+) {
+  if (
+    index === arr.length - 1 &&
+    !isLoadingState.additionByIndex &&
+    !isLoadingState.additionToHead &&
+    !isLoadingState.additionToTail &&
+    !isLoadingState.deletionByIndex &&
+    !isLoadingState.deletionFromHead &&
+    !isLoadingState.deletionFromTail
+  ) {
+    return TAIL;
+  } else {
+    return null;
+  }
 }

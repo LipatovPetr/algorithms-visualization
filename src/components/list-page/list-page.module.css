@@ -35,5 +35,12 @@
 .secondaryCircle {
   position: absolute;
   left: 36px;
-  top: -90px;
+}
+
+.addition_pos {
+  top: -65px;
+}
+
+.deletion_pos {
+  bottom: -90px;
 }
