@@ -9,7 +9,7 @@ import {
   addByIndex,
   addToHead,
   addToTail,
-  changeNodeColor,
+  changeNodeColorToDefault,
   highlightIncomingValue,
   setElementForRemoval,
   highlightNodesAndIncomingValue,
@@ -88,7 +88,7 @@ export const ListPage = () => {
 
     // 1.3. Change value state from modified to default
 
-    changeNodeColor(listModelCopy, 0);
+    changeNodeColorToDefault(listModelCopy, 0);
     setListModel([...listModelCopy]);
 
     // 2. List operations
@@ -127,7 +127,7 @@ export const ListPage = () => {
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.3. Change value state from modified to default
-    changeNodeColor(listModelCopy, listModelCopy.length - 1);
+    changeNodeColorToDefault(listModelCopy, listModelCopy.length - 1);
     setListModel([...listModelCopy]);
 
     // 2. List operations
@@ -230,7 +230,7 @@ export const ListPage = () => {
       }
 
       // 1.4. Change value state from modified to default
-      changeNodeColor(listModelCopy, userInputIndex);
+      changeNodeColorToDefault(listModelCopy, userInputIndex);
       setListModel([...listModelCopy]);
     }
 
