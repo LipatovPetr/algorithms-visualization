@@ -13,7 +13,7 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 const queue = new Queue<string>(QUEUE_LENGTH);
 
-export const QueuePage: React.FC = () => {
+export const QueuePage = () => {
   const [isLoding, setLoadingState] = useState({
     addition: false,
     deletion: false,

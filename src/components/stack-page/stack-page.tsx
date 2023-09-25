@@ -11,7 +11,7 @@ import { isHead } from "../../utils/helpers/stack.helpers";
 import { delay, setColorState } from "../../utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
-export const StackPage: React.FC = () => {
+export const StackPage = () => {
   const [isLoding, setLoadingState] = useState({
     addition: false,
     deletion: false,

@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import styles from "./string.module.css";
 import { stringMappedToCharsWithState } from "./types";
-import { mapStringToArray, reverseString, swapChars } from "./algorithm";
+import { reverseString } from "./algorithm";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
@@ -9,9 +9,8 @@ import { useFormInputs } from "../../hooks/useForm";
 import { Circle } from "../ui/circle/circle";
 import { MAX_LENGTH } from "./constants";
 import { DELAY_IN_MS } from "../../constants/delays";
-import { ElementStates } from "../../types/element-states";
 
-export const StringComponent: React.FC = () => {
+export const StringComponent = () => {
   const [isLoding, setLoadingState] = useState(false);
   const [mappedString, setMappedString] =
     useState<stringMappedToCharsWithState>([]);

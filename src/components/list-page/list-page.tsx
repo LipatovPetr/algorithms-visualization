@@ -1,6 +1,6 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
 import cn from "classnames";
-import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
 import { linkedlistModelNode, loadingStates } from "./types";
 import { delay, generateRandomArray } from "../../utils";
@@ -47,7 +47,7 @@ const mappedArray: Array<linkedlistModelNode> = randomArray.map((element) => ({
   incomingValue: null,
 }));
 
-export const ListPage: React.FC = () => {
+export const ListPage = () => {
   const [isLoding, setLoadingState] = useState<loadingStates>({
     additionToHead: false,
     additionToTail: false,

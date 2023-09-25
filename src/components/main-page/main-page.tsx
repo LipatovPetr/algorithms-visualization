@@ -4,11 +4,7 @@ import { Link } from "react-router-dom";
 
 import styles from "./main-page.module.css";
 
-interface MainPageProps {
-  extraClass?: string;
-}
-
-export const MainPage: React.FC<MainPageProps> = ({ extraClass = "" }) => {
+export const MainPage = ({ extraClass = "" }) => {
   return (
     <main className={`${styles.content} ${extraClass}`}>
       <div className={styles.title_box}>

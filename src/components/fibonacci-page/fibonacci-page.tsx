@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import styles from "./fibonacci-page.module.css";
 import { Button } from "../ui/button/button";
 import { Input } from "../ui/input/input";
@@ -8,7 +8,7 @@ import { useFormInputs } from "../../hooks/useForm";
 import { Circle } from "../ui/circle/circle";
 import { generateFibonacciSequence } from "./algorithm";
 
-export const FibonacciPage: React.FC = () => {
+export const FibonacciPage = () => {
   const [isLoding, setLoadingState] = useState(false);
   const { handleChange, values } = useFormInputs();
   const [fibArray, setFibArray] = useState<number[]>([]);

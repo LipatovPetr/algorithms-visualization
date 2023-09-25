@@ -9,10 +9,9 @@ import { mapArray } from "../../utils/helpers/sorting.helpers";
 import { generateRandomArray } from "../../utils";
 import { selectSort, bubbleSort } from "./algorithm";
 import { elementWithState } from "./Types";
-import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { MIN_NUMBER, MAX_NUMBER, MIN_LENGTH, MAX_LENGTH } from "./constants";
 
-export const SortingPage: React.FC = () => {
+export const SortingPage = () => {
   const [isLoding, setLoadingState] = useState({
     ascendingSort: false,
     descendingSort: false,
