@@ -1,7 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
-import { linkedlistModelNode } from "./types";
+import { linkedlistModelNode, loadingStates } from "./types";
 import { delay, generateRandomArray } from "../../utils";
 import {
   isWithinListSize,
@@ -11,8 +11,8 @@ import {
   changeNodeColor,
   highlightIncomingValue,
   setElementForRemoval,
-  loopHighlightingNodesAndIncomingValue,
-  loopHighlightingNodes,
+  highlightNodesAndIncomingValue,
+  highlightNodes,
   isHead,
   isTail,
 } from "../../utils/helpers/linked-list.helpers";
@@ -47,7 +47,7 @@ const mappedArray: Array<linkedlistModelNode> = randomArray.map((element) => ({
 }));
 
 export const ListPage: React.FC = () => {
-  const [isLoding, setLoadingState] = useState({
+  const [isLoding, setLoadingState] = useState<loadingStates>({
     additionToHead: false,
     additionToTail: false,
     additionByIndex: false,
@@ -55,6 +55,7 @@ export const ListPage: React.FC = () => {
     deletionFromTail: false,
     deletionByIndex: false,
   });
+
   const [listModelArray, setListModel] =
     useState<linkedlistModelNode[]>(mappedArray);
   const { handleChange, values } = useFormInputs();
@@ -205,7 +206,7 @@ export const ListPage: React.FC = () => {
 
       // 1.1. Loop though list highlighting elements up to entered index
 
-      await loopHighlightingNodesAndIncomingValue(
+      await highlightNodesAndIncomingValue(
         listModelCopy,
         userInputIndex,
         userInputValue,
@@ -253,7 +254,7 @@ export const ListPage: React.FC = () => {
 
     // 1.1. Loop though list highlighting elements up to entered index
 
-    await loopHighlightingNodes(listModelCopy, userInputIndex, setListModel);
+    await highlightNodes(listModelCopy, userInputIndex, setListModel);
 
     // 1.2. Highlight element as being removed
     setElementForRemoval(listModelCopy, userInputIndex);
@@ -391,8 +392,8 @@ export const ListPage: React.FC = () => {
                     letter={el.value}
                     state={el.state}
                     index={index}
-                    head={isHead(index)}
-                    tail={isTail(listModelArray, index)}
+                    head={isHead(index, isLoding)}
+                    tail={isTail(listModelArray, index, isLoding)}
                     extraClass="mr-12 ml-12"
                   />
                   {index < listModelArray.length - 1 && <ArrowIcon />}
