@@ -1,0 +1,17 @@
+.form {
+  margin: auto;
+  max-width: 522px;
+  display: flex;
+}
+
+.submitButton {
+  margin-left: 12px;
+}
+
+.circlesContainer {
+  display: flex;
+  margin: auto;
+  margin-top: 120px;
+  justify-content: center;
+  gap: 16px;
+}

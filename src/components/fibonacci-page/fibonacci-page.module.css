@@ -1,0 +1,24 @@
+.form {
+  margin: auto;
+  max-width: 567px;
+  display: flex;
+}
+
+.inputContainer {
+  width: 100%;
+}
+
+.submitButton {
+  margin-left: 12px;
+}
+
+.circlesContainer {
+  margin: auto;
+  margin-top: 48px;
+  max-width: 944px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  row-gap: 48px;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,26 @@
+.inputsContainer {
+  margin: auto;
+  max-width: 980px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filtersContainer {
+  display: flex;
+  gap: 12px;
+}
+
+.radioContainer {
+  display: flex;
+  gap: 40px;
+}
+
+.graphContainer {
+  min-height: 330px;
+  margin-top: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+}

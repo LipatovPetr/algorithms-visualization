@@ -1,0 +1,18 @@
+.inputsContainer {
+  max-width: 829px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.innerContainer {
+  display: flex;
+  gap: 12px;
+}
+
+.queueContainer {
+  margin-top: 48px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
