@@ -9,11 +9,11 @@ import {
   addByIndex,
   addToHead,
   addToTail,
-  changeNodeColorToDefault,
-  highlightIncomingValue,
-  setElementForRemoval,
-  highlightNodesAndIncomingValue,
-  highlightNodes,
+  changeNodeColor,
+  setIncomingValue,
+  stageElementForRemoval,
+  colorNodesAndSetIncomingValue,
+  colorNodes,
   isHead,
   isTail,
 } from "../../utils/helpers/linked-list.helpers";
@@ -74,13 +74,13 @@ export const ListPage = () => {
     const listModelCopy = [...listModelArray];
 
     // 1.1. Highlight incoming value
-    highlightIncomingValue(listModelCopy, 0, userInputValue);
+    setIncomingValue(listModelCopy, 0, userInputValue);
     setListModel(listModelCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.2. Remove highlighting and add value to the head with modified state
-    highlightIncomingValue(listModelCopy, 0, null);
+    setIncomingValue(listModelCopy, 0, null);
     addToHead(listModelCopy, userInputValue);
     setListModel([...listModelCopy]);
 
@@ -88,7 +88,7 @@ export const ListPage = () => {
 
     // 1.3. Change value state from modified to default
 
-    changeNodeColorToDefault(listModelCopy, 0);
+    changeNodeColor(listModelCopy, 0, ElementStates.Default);
     setListModel([...listModelCopy]);
 
     // 2. List operations
@@ -110,24 +110,24 @@ export const ListPage = () => {
     const listModelCopy = [...listModelArray];
 
     // 1.1. Highlight incoming value
-    highlightIncomingValue(
-      listModelCopy,
-      listModelCopy.length - 1,
-      userInputValue
-    );
+    setIncomingValue(listModelCopy, listModelCopy.length - 1, userInputValue);
     setListModel(listModelCopy);
 
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.2. Remove highlighting and add value to the tail with modified state
-    highlightIncomingValue(listModelCopy, listModelCopy.length - 1, null);
+    setIncomingValue(listModelCopy, listModelCopy.length - 1, null);
     addToTail(listModelCopy, userInputValue);
     setListModel([...listModelCopy]);
 
     await delay(SHORT_DELAY_IN_MS);
 
     // 1.3. Change value state from modified to default
-    changeNodeColorToDefault(listModelCopy, listModelCopy.length - 1);
+    changeNodeColor(
+      listModelCopy,
+      listModelCopy.length - 1,
+      ElementStates.Default
+    );
     setListModel([...listModelCopy]);
 
     // 2. List operations
@@ -149,7 +149,7 @@ export const ListPage = () => {
     const listModelCopy = [...listModelArray];
 
     // 1.1. Highlight value to be deleted from head
-    setElementForRemoval(listModelCopy, 0);
+    stageElementForRemoval(listModelCopy, 0);
     setListModel(listModelCopy);
 
     await delay(SHORT_DELAY_IN_MS);
@@ -177,7 +177,7 @@ export const ListPage = () => {
     const listModelCopy = [...listModelArray];
 
     // 1.1. Highlight value to be deleted from tail
-    setElementForRemoval(listModelCopy, listModelCopy.length - 1);
+    stageElementForRemoval(listModelCopy, listModelCopy.length - 1);
     setListModel(listModelCopy);
 
     await delay(SHORT_DELAY_IN_MS);
@@ -205,32 +205,27 @@ export const ListPage = () => {
     if (isWithinListSize(userInputIndex, listModelArray)) {
       const listModelCopy = [...listModelArray];
 
-      // 1.1. Loop though list highlighting elements up to entered index
-
-      await highlightNodesAndIncomingValue(
+      await colorNodesAndSetIncomingValue(
         listModelCopy,
         userInputIndex,
         userInputValue,
         setListModel
       );
 
-      // 1.2. Add value by index, clear incoming value and set modified state
       await delay(SHORT_DELAY_IN_MS);
+
       addByIndex(listModelCopy, userInputIndex, userInputValue);
-      highlightIncomingValue(listModelCopy, userInputIndex + 1, null);
+      setIncomingValue(listModelCopy, userInputIndex + 1, null);
       setListModel([...listModelCopy]);
 
       await delay(SHORT_DELAY_IN_MS);
-
-      // 1.3. Clear highlighting state set in a 1.1. loop
 
       for (let i = 0; i < userInputIndex; i++) {
         listModelCopy[i].state = ElementStates.Default;
         setListModel([...listModelCopy]);
       }
 
-      // 1.4. Change value state from modified to default
-      changeNodeColorToDefault(listModelCopy, userInputIndex);
+      changeNodeColor(listModelCopy, userInputIndex, ElementStates.Default);
       setListModel([...listModelCopy]);
     }
 
@@ -251,25 +246,20 @@ export const ListPage = () => {
     }));
 
     // 1. List model operations
+
     const listModelCopy = [...listModelArray];
 
-    // 1.1. Loop though list highlighting elements up to entered index
+    await colorNodes(listModelCopy, userInputIndex, setListModel);
 
-    await highlightNodes(listModelCopy, userInputIndex, setListModel);
-
-    // 1.2. Highlight element as being removed
-    setElementForRemoval(listModelCopy, userInputIndex);
+    stageElementForRemoval(listModelCopy, userInputIndex);
     setListModel([...listModelCopy]);
 
     await delay(SHORT_DELAY_IN_MS);
 
-    // 1.3. Remove value by index
     listModelCopy.splice(userInputIndex, 1);
     setListModel(listModelCopy);
 
     await delay(SHORT_DELAY_IN_MS);
-
-    // 1.4. Clear highlighting state set in a 1.1. loop
 
     for (let i = 0; i < userInputIndex; i++) {
       listModelCopy[i].state = ElementStates.Default;

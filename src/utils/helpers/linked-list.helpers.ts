@@ -91,11 +91,12 @@ export function addByIndex(
  * @param {number} index - The index of the node whose color state will be changed to default.
  */
 
-export function changeNodeColorToDefault(
+export function changeNodeColor(
   arr: Array<linkedlistModelNode>,
-  index: number
+  index: number,
+  color: ElementStates
 ) {
-  arr[index].state = ElementStates.Default;
+  arr[index].state = color;
 }
 
 /**
@@ -106,7 +107,7 @@ export function changeNodeColorToDefault(
  * @param {string | null} inputValue - The incoming value to be highlighted (or null to clear the highlighting).
  */
 
-export function highlightIncomingValue(
+export function setIncomingValue(
   arr: Array<linkedlistModelNode>,
   index: number,
   inputValue: string | null
@@ -122,7 +123,7 @@ export function highlightIncomingValue(
  * @param {number} index - The index of the node to be prepared for removal.
  */
 
-export function setElementForRemoval(
+export function stageElementForRemoval(
   arr: Array<linkedlistModelNode>,
   index: number
 ) {
@@ -136,7 +137,7 @@ export function setElementForRemoval(
 
 /**
  * Highlights nodes in an array up to a specified index by setting their 'incomingValue' property and state.
- * This function is typically used to indicate a change in value while inserting elements.
+ *
  *
  * @param {Array<linkedlistModelNode>} arr - The array containing the nodes.
  * @param {number} index - The index up to which nodes will be highlighted.
@@ -144,7 +145,7 @@ export function setElementForRemoval(
  * @param {Dispatch<SetStateAction<linkedlistModelNode[]>>} stateSetter - A state setter function to update the array state.
  */
 
-export async function highlightNodesAndIncomingValue(
+export async function colorNodesAndSetIncomingValue(
   arr: Array<linkedlistModelNode>,
   index: number,
   value: string,
@@ -170,7 +171,7 @@ export async function highlightNodesAndIncomingValue(
  * @param {Dispatch<SetStateAction<linkedlistModelNode[]>>} stateSetter - A state setter function to update the array state.
  */
 
-export async function highlightNodes(
+export async function colorNodes(
   arr: Array<linkedlistModelNode>,
   index: number,
   stateSetter: Dispatch<SetStateAction<linkedlistModelNode[]>>
