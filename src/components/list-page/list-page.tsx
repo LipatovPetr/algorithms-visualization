@@ -18,7 +18,7 @@ import {
   isTail,
 } from "../../utils/helpers/linked-list.helpers";
 import { useFormInputs } from "../../hooks/useForm";
-import { Button } from "../ui/button/button";
+import { Button } from "../ui/Button/Button";
 import { Circle } from "../ui/circle/circle";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { Input } from "../ui/input/input";

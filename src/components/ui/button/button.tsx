@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./button.module.css";
+import styles from "./Button.module.css";
 import loaderIcon from "../../../images/icons/loader.svg";
 import { AscendingIcon } from "../icons/ascending-icon";
 import { DescendingIcon } from "../icons/descending-icon";

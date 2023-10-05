@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState, MouseEvent } from "react";
 import styles from "./sorting-page.module.css";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import { Button } from "../ui/button/button";
+import { Button } from "../ui/Button/Button";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 import { mapArray } from "../../utils/helpers/sorting.helpers";
