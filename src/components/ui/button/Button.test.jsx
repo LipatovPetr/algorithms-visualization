@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { Button } from "./Button.tsx";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { Button } from "./button.tsx";
 
 describe("Button Component", () => {
   test("Render Button without text", () => {
@@ -30,5 +30,16 @@ describe("Button Component", () => {
     expect(button).toBeInTheDocument();
     expect(loaderImage).toBeInTheDocument();
     expect(button).toMatchSnapshot();
+  });
+
+  test("Call button callback", () => {
+    const mockCallback = jest.fn();
+    render(<Button onClick={mockCallback} />);
+
+    const button = screen.getByTestId("button-component");
+
+    fireEvent.click(button);
+
+    expect(mockCallback).toHaveBeenCalledTimes(1);
   });
 });

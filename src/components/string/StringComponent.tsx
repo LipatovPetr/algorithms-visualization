@@ -4,7 +4,7 @@ import { stringMappedToCharsWithState } from "./types";
 import { reverseString } from "./algorithm";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
-import { Button } from "../ui/Button/Button";
+import { Button } from "../ui/button/button";
 import { useFormInputs } from "../../hooks/useForm";
 import { Circle } from "../ui/circle/circle";
 import { MAX_LENGTH } from "./constants";

@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import styles from "./queue-page.module.css";
-import { Button } from "../ui/Button/Button";
+import { Button } from "../ui/button/button";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { MAX_INPUT_LENGTH, QUEUE_LENGTH } from "./constants";
