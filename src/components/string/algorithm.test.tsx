@@ -1,17 +1,12 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { ElementStates } from "../../types/element-states";
-import { mapStringToArray, swapChars, reverseString } from "./algorithm";
+import {
+  mapStringToArray,
+  swapChars,
+  reverseString,
+  createReverseStringSeq,
+} from "./algorithm";
 import { stringMappedToCharsWithState } from "./types";
-
-// Mock state.
-jest.mock("react", () => ({
-  // Returns the actual module instead of a mock,
-  // bypassing all checks on whether the module should receive
-  // a mock implementation or not.
-  ...jest.requireActual("react"),
-  useState: jest.fn(),
-}));
-const setState = jest.fn();
 
 describe("Reverse string algorithm", () => {
   test("Secondary method: mapStringToArray", () => {
@@ -41,9 +36,208 @@ describe("Reverse string algorithm", () => {
     ]);
   });
 
-  //   test("Primary method: reverseString ", () => {
-  //     const setState = jest.fn();
-  //     jest
-  //       .spyOn(React, 'useState')
-  //       .mockImplementationOnce((initState) => [initState, setState]);
+  test("Reverse String algo: even chars", () => {
+    const reversedStringSequence = createReverseStringSeq("abcd");
+
+    expect(reversedStringSequence).toEqual([
+      [
+        {
+          character: "a",
+          state: "default",
+        },
+        {
+          character: "b",
+          state: "default",
+        },
+        {
+          character: "c",
+          state: "default",
+        },
+        {
+          character: "d",
+          state: "default",
+        },
+      ],
+      [
+        {
+          character: "a",
+          state: "changing",
+        },
+        {
+          character: "b",
+          state: "default",
+        },
+        {
+          character: "c",
+          state: "default",
+        },
+        {
+          character: "d",
+          state: "changing",
+        },
+      ],
+      [
+        {
+          character: "d",
+          state: "modified",
+        },
+        {
+          character: "b",
+          state: "default",
+        },
+        {
+          character: "c",
+          state: "default",
+        },
+        {
+          character: "a",
+          state: "modified",
+        },
+      ],
+      [
+        {
+          character: "d",
+          state: "modified",
+        },
+        {
+          character: "b",
+          state: "changing",
+        },
+        {
+          character: "c",
+          state: "changing",
+        },
+        {
+          character: "a",
+          state: "modified",
+        },
+      ],
+      [
+        {
+          character: "d",
+          state: "modified",
+        },
+        {
+          character: "c",
+          state: "modified",
+        },
+        {
+          character: "b",
+          state: "modified",
+        },
+        {
+          character: "a",
+          state: "modified",
+        },
+      ],
+    ]);
+  });
+
+  test("Reverse String algo: odd chars", () => {
+    const reversedStringSequence = createReverseStringSeq("abc");
+
+    expect(reversedStringSequence).toEqual([
+      [
+        {
+          character: "a",
+          state: "default",
+        },
+        {
+          character: "b",
+          state: "default",
+        },
+        {
+          character: "c",
+          state: "default",
+        },
+      ],
+      [
+        {
+          character: "a",
+          state: "changing",
+        },
+        {
+          character: "b",
+          state: "default",
+        },
+        {
+          character: "c",
+          state: "changing",
+        },
+      ],
+      [
+        {
+          character: "c",
+          state: "modified",
+        },
+        {
+          character: "b",
+          state: "default",
+        },
+        {
+          character: "a",
+          state: "modified",
+        },
+      ],
+      [
+        {
+          character: "c",
+          state: "modified",
+        },
+        {
+          character: "b",
+          state: "changing",
+        },
+        {
+          character: "a",
+          state: "modified",
+        },
+      ],
+      [
+        {
+          character: "c",
+          state: "modified",
+        },
+        {
+          character: "b",
+          state: "modified",
+        },
+        {
+          character: "a",
+          state: "modified",
+        },
+      ],
+    ]);
+  });
+
+  test("Reverse String algo: single char", () => {
+    const reversedStringSequence = createReverseStringSeq("a");
+
+    expect(reversedStringSequence).toEqual([
+      [
+        {
+          character: "a",
+          state: "default",
+        },
+      ],
+      [
+        {
+          character: "a",
+          state: "changing",
+        },
+      ],
+      [
+        {
+          character: "a",
+          state: "modified",
+        },
+      ],
+    ]);
+  });
+
+  test("Reverse String algo: empty string", () => {
+    const reversedStringSequence = createReverseStringSeq("");
+
+    expect(reversedStringSequence).toEqual([[]]);
+  });
 });

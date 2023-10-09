@@ -60,18 +60,18 @@ export function createReverseStringSeq(string: string) {
   let reverseStringSeq: stringMappedToCharsWithState[] = [];
   const len = processedString.length;
 
+  // add initial state of the string to the sequence
   reverseStringSeq.push(_.cloneDeep(processedString));
 
-  // highlight changing elements
   for (let i = 0; i < len / 2; i++) {
+    // add state with highlighted elements to be swapped to the sequence
     processedString[i].state = ElementStates.Changing;
     processedString[len - 1 - i].state = ElementStates.Changing;
 
     reverseStringSeq.push(_.cloneDeep(processedString));
-    // swap changing elements
-    swapChars(processedString, i, len - 1 - i);
 
-    // highlight successfully changed elements
+    // add state with swapped elements and modified state to the sequence
+    swapChars(processedString, i, len - 1 - i);
     processedString[i].state = ElementStates.Modified;
     processedString[len - 1 - i].state = ElementStates.Modified;
 
@@ -80,4 +80,4 @@ export function createReverseStringSeq(string: string) {
   return reverseStringSeq;
 }
 
-console.log(createReverseStringSeq("seq"));
+console.log(createReverseStringSeq(""));

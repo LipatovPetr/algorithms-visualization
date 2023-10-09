@@ -1,15 +1,14 @@
-import React, { FormEvent, useState } from "react";
-import styles from "./string.module.css";
+import { FormEvent, useState } from "react";
+import styles from "./StringComponent.module.css";
 import { stringMappedToCharsWithState } from "./types";
-import { createReverseStringSeq, reverseString } from "./algorithm";
+import { createReverseStringSeq } from "./algorithm";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { useFormInputs } from "../../hooks/useForm";
 import { Circle } from "../ui/circle/circle";
 import { MAX_LENGTH } from "./constants";
-import { DELAY_IN_MS } from "../../constants/delays";
-import { delay } from "../../utils";
+import { animateThroughState } from "../../utils/helpers/string.helpers";
 
 export const StringComponent = () => {
   const [isLoding, setLoadingState] = useState(false);
@@ -17,18 +16,11 @@ export const StringComponent = () => {
     useState<stringMappedToCharsWithState>([]);
   const { handleChange, values } = useFormInputs();
 
-  async function animateAlgo(sequence: stringMappedToCharsWithState[]) {
-    for (const step of sequence) {
-      setMappedString([...step]);
-      await delay(DELAY_IN_MS);
-    }
-  }
-
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoadingState(true);
-    const animationSequence = createReverseStringSeq(values.string);
-    await animateAlgo(animationSequence);
+    const reverseStringSequence = createReverseStringSeq(values.string);
+    await animateThroughState(reverseStringSequence, setMappedString);
     setLoadingState(false);
   }
 
