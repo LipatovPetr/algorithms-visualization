@@ -35,11 +35,8 @@ describe("Button Component", () => {
   test("Call button callback", () => {
     const mockCallback = jest.fn();
     render(<Button onClick={mockCallback} />);
-
     const button = screen.getByTestId("button-component");
-
     fireEvent.click(button);
-
     expect(mockCallback).toHaveBeenCalledTimes(1);
   });
 });
