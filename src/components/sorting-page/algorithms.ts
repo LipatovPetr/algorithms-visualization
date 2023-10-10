@@ -1,10 +1,7 @@
 import { ElementStates } from "../../types/element-states";
-import { delay } from "../../utils";
-import { Dispatch, SetStateAction } from "react";
 import _ from "lodash";
 
 import { elementWithState } from "./Types";
-import { addStatestoArrayElement } from "../../utils/helpers/sorting.helpers";
 
 // helpers used in both algos
 
@@ -24,13 +21,6 @@ const updateElementColor = (
       arr[index].state = ElementStates.Modified;
       break;
   }
-};
-
-const updateState = (
-  callback: Dispatch<SetStateAction<Array<elementWithState>>>,
-  arr: Array<elementWithState>
-) => {
-  callback([...arr]);
 };
 
 const swapElements = (

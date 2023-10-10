@@ -1,4 +1,3 @@
-import { ElementStates } from "../../types/element-states";
 import { addStatestoArrayElement } from "../../utils/helpers/sorting.helpers";
 import { createSelectSortSeq, createbBubbleSortSeq } from "./algorithms";
 

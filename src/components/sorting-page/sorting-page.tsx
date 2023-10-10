@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState, MouseEvent } from "react";
+import { ChangeEvent, useEffect, useState, MouseEvent } from "react";
 import styles from "./sorting-page.module.css";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
