@@ -11,16 +11,16 @@ import { addStatestoArrayElement } from "../../utils/helpers/sorting.helpers";
 const updateElementColor = (
   arr: Array<elementWithState>,
   index: number,
-  colorState: "default1" | "changing1" | "modified1"
+  colorState: "default" | "changing" | "modified"
 ) => {
   switch (colorState) {
-    case "default1":
+    case "default":
       arr[index].state = ElementStates.Default;
       break;
-    case "changing1":
+    case "changing":
       arr[index].state = ElementStates.Changing;
       break;
-    case "modified1":
+    case "modified":
       arr[index].state = ElementStates.Modified;
       break;
   }
@@ -69,25 +69,25 @@ export function createSelectSortSeq(
   for (let i = 0; i < len; i++) {
     let indexOfMin = i;
 
-    updateElementColor(arrayCopy, i, "changing1");
+    updateElementColor(arrayCopy, i, "changing");
     sequence.push(_.cloneDeep(arrayCopy));
 
     for (let j = i + 1; j < len; j++) {
-      updateElementColor(arrayCopy, j, "changing1");
+      updateElementColor(arrayCopy, j, "changing");
       sequence.push(_.cloneDeep(arrayCopy));
 
       if (sortingCondition(arrayCopy, indexOfMin, j, sortingOrder)) {
         indexOfMin = j;
       }
 
-      updateElementColor(arrayCopy, j, "default1");
+      updateElementColor(arrayCopy, j, "default");
       sequence.push(_.cloneDeep(arrayCopy));
     }
 
     if (indexOfMin !== i) {
       swapElements(arrayCopy, indexOfMin, i);
     }
-    updateElementColor(arrayCopy, i, "modified1");
+    updateElementColor(arrayCopy, i, "modified");
     sequence.push(_.cloneDeep(arrayCopy));
   }
   return sequence;
@@ -107,8 +107,8 @@ export function createbBubbleSortSeq(
 
   for (let i = 0; i < len - 1; i++) {
     for (let j = 0; j < len - i - 1; j++) {
-      updateElementColor(arrayCopy, j, "changing1");
-      updateElementColor(arrayCopy, j + 1, "changing1");
+      updateElementColor(arrayCopy, j, "changing");
+      updateElementColor(arrayCopy, j + 1, "changing");
 
       sequence.push(_.cloneDeep(arrayCopy));
 
@@ -116,14 +116,17 @@ export function createbBubbleSortSeq(
         swapElements(arrayCopy, j, j + 1);
       }
 
-      updateElementColor(arrayCopy, j, "default1");
-      updateElementColor(arrayCopy, j + 1, "default1");
+      updateElementColor(arrayCopy, j, "default");
+      updateElementColor(arrayCopy, j + 1, "default");
       sequence.push(_.cloneDeep(arrayCopy));
     }
-    updateElementColor(arrayCopy, len - i - 1, "modified1");
+    updateElementColor(arrayCopy, len - i - 1, "modified");
     sequence.push(_.cloneDeep(arrayCopy));
   }
-  updateElementColor(arrayCopy, 0, "modified1");
+  updateElementColor(arrayCopy, 0, "modified");
   sequence.push(_.cloneDeep(arrayCopy));
   return sequence;
 }
+
+// const arr = addStatestoArrayElement([]);
+// console.log(createbBubbleSortSeq(arr, "asc"));

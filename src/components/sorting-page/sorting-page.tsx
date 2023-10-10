@@ -136,8 +136,8 @@ export const SortingPage = () => {
       </div>
       <div className={styles.graphContainer}>
         {sortedArray &&
-          sortedArray.map((el) => (
-            <Column index={el.value} state={el.state} key={el.id} />
+          sortedArray.map((el, index) => (
+            <Column index={el.value} state={el.state} key={index} />
           ))}
       </div>
     </SolutionLayout>

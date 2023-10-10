@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
 import { ElementStates } from "../../types/element-states";
-import { nanoid } from "nanoid";
 import { elementWithState } from "../../components/sorting-page/Types";
 import { delay } from "..";
 
@@ -10,7 +9,6 @@ export function addStatestoArrayElement(arr: number[]) {
   return arr.map((el) => ({
     value: el,
     state: ElementStates.Default,
-    id: nanoid(5),
   }));
 }
 
