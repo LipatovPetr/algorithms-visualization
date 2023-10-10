@@ -1,24 +1,26 @@
 import { ElementStates } from "../../types/element-states";
 import { delay } from "../../utils";
 import { Dispatch, SetStateAction } from "react";
+import _ from "lodash";
 
 import { elementWithState } from "./Types";
+import { addStatestoArrayElement } from "../../utils/helpers/sorting.helpers";
 
 // helpers used in both algos
 
 const updateElementColor = (
   arr: Array<elementWithState>,
   index: number,
-  colorState: "default" | "changing" | "modified"
+  colorState: "default1" | "changing1" | "modified1"
 ) => {
   switch (colorState) {
-    case "default":
+    case "default1":
       arr[index].state = ElementStates.Default;
       break;
-    case "changing":
+    case "changing1":
       arr[index].state = ElementStates.Changing;
       break;
-    case "modified":
+    case "modified1":
       arr[index].state = ElementStates.Modified;
       break;
   }
@@ -52,73 +54,76 @@ const sortingCondition = (
     : arr[a].value < arr[b].value;
 };
 
-// select sort algo
+// f creates sequence from select sort
 
-export async function selectSort(
+export function createSelectSortSeq(
   arr: Array<elementWithState>,
-  stateSetter: Dispatch<SetStateAction<Array<elementWithState>>>,
-  delayValue: number,
   sortingOrder: "asc" | "desc"
 ) {
-  const arrayCopy = [...arr];
+  let sequence = [];
+  let arrayCopy = [...arr];
   const len = arrayCopy.length;
+
+  sequence.push(_.cloneDeep(arrayCopy));
 
   for (let i = 0; i < len; i++) {
     let indexOfMin = i;
 
-    updateElementColor(arrayCopy, i, "changing");
-    updateState(stateSetter, arrayCopy);
+    updateElementColor(arrayCopy, i, "changing1");
+    sequence.push(_.cloneDeep(arrayCopy));
 
     for (let j = i + 1; j < len; j++) {
-      updateElementColor(arrayCopy, j, "changing");
-      updateState(stateSetter, arrayCopy);
-      await delay(delayValue);
+      updateElementColor(arrayCopy, j, "changing1");
+      sequence.push(_.cloneDeep(arrayCopy));
 
       if (sortingCondition(arrayCopy, indexOfMin, j, sortingOrder)) {
         indexOfMin = j;
       }
 
-      updateElementColor(arrayCopy, j, "default");
-      updateState(stateSetter, arrayCopy);
+      updateElementColor(arrayCopy, j, "default1");
+      sequence.push(_.cloneDeep(arrayCopy));
     }
 
     if (indexOfMin !== i) {
       swapElements(arrayCopy, indexOfMin, i);
     }
-    updateElementColor(arrayCopy, i, "modified");
-    updateState(stateSetter, arrayCopy);
+    updateElementColor(arrayCopy, i, "modified1");
+    sequence.push(_.cloneDeep(arrayCopy));
   }
+  return sequence;
 }
 
-// bubble sort algo
+// f creates sequence from bubble sort
 
-export async function bubbleSort(
+export function createbBubbleSortSeq(
   arr: Array<elementWithState>,
-  stateSetter: Dispatch<SetStateAction<Array<elementWithState>>>,
-  delayValue: number,
   sortingOrder: "asc" | "desc"
 ) {
-  const arrayCopy = [...arr];
+  let sequence = [];
+  let arrayCopy = [...arr];
   const len = arr.length;
+
+  sequence.push(_.cloneDeep(arrayCopy));
 
   for (let i = 0; i < len - 1; i++) {
     for (let j = 0; j < len - i - 1; j++) {
+      updateElementColor(arrayCopy, j, "changing1");
+      updateElementColor(arrayCopy, j + 1, "changing1");
+
+      sequence.push(_.cloneDeep(arrayCopy));
+
       if (sortingCondition(arrayCopy, j, j + 1, sortingOrder)) {
-        updateElementColor(arrayCopy, j, "changing");
-        updateElementColor(arrayCopy, j + 1, "changing");
-        updateState(stateSetter, arrayCopy);
-        await delay(delayValue);
-
         swapElements(arrayCopy, j, j + 1);
-
-        updateElementColor(arrayCopy, j, "default");
-        updateElementColor(arrayCopy, j + 1, "default");
-        updateState(stateSetter, arrayCopy);
       }
+
+      updateElementColor(arrayCopy, j, "default1");
+      updateElementColor(arrayCopy, j + 1, "default1");
+      sequence.push(_.cloneDeep(arrayCopy));
     }
-    updateElementColor(arrayCopy, len - i - 1, "modified");
-    updateState(stateSetter, arrayCopy);
+    updateElementColor(arrayCopy, len - i - 1, "modified1");
+    sequence.push(_.cloneDeep(arrayCopy));
   }
-  updateElementColor(arrayCopy, 0, "modified");
-  updateState(stateSetter, arrayCopy);
+  updateElementColor(arrayCopy, 0, "modified1");
+  sequence.push(_.cloneDeep(arrayCopy));
+  return sequence;
 }

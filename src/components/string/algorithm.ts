@@ -79,5 +79,3 @@ export function createReverseStringSeq(string: string) {
   }
   return reverseStringSeq;
 }
-
-console.log(createReverseStringSeq(""));

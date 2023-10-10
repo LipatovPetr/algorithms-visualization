@@ -1,12 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
 import { ElementStates } from "../../types/element-states";
 import {
   mapStringToArray,
   swapChars,
-  reverseString,
   createReverseStringSeq,
 } from "./algorithm";
-import { stringMappedToCharsWithState } from "./types";
 
 describe("Reverse string algorithm", () => {
   test("Secondary method: mapStringToArray", () => {
