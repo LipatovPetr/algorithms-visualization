@@ -39,6 +39,7 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={isLoader || disabled}
       {...rest}
       data-testid="button-component"
+      data-test="button-component"
     >
       {isLoader ? (
         <img className={styles.loader_icon} src={loaderIcon} alt="Загрузка." />
