@@ -8,7 +8,7 @@ describe("Fibonacci Component", () => {
     cy.getByData("button-component").should("be.disabled");
   });
 
-  it("Should test", () => {
+  it("Should render fibonacci sequence", () => {
     cy.getByData("text-input").type("19");
     cy.getByData("button-component").click();
 

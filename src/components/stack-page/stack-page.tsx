@@ -71,6 +71,7 @@ export const StackPage = () => {
             type="submit"
             isLoader={isLoding.addition}
             disabled={values.stackElement ? false : true}
+            data-test="submit-button"
           />
           <Button
             text={"Удалить"}
@@ -78,6 +79,7 @@ export const StackPage = () => {
             onClick={handleDelete}
             isLoader={isLoding.deletion}
             disabled={stackArray.length ? false : true}
+            data-test="remove-button"
           />
         </div>
         <Button
@@ -85,6 +87,7 @@ export const StackPage = () => {
           type="reset"
           onClick={handleClear}
           disabled={stackArray.length ? false : true}
+          data-test="clear-button"
         />
       </form>
       <div className={styles.stackContainer}>
