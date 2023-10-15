@@ -31,6 +31,7 @@ export const FibonacciPage = () => {
           max={MAX_VALUE}
           isLimitText
           min={0}
+          placeholder="Введите число"
         />
         <Button
           type="submit"
