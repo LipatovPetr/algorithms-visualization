@@ -24,6 +24,8 @@ describe("Queue Component", () => {
       .should("have.attr", "class")
       .and("include", "default");
 
+    cy.getByData("circle-element").eq(0).should("have.text", "7");
+
     cy.getByData("circle-component")
       .eq(0)
       .find('[data-test="tail"]')
@@ -33,5 +35,28 @@ describe("Queue Component", () => {
       .eq(0)
       .find('[data-test="head"]')
       .should("have.text", "head");
+  });
+
+  it("Should remove an element from the queue", () => {
+    cy.getByData("text-input").type("7");
+    cy.get('button[type="submit"]').click();
+
+    cy.wait(500);
+
+    cy.getByData("circle-element").eq(0).should("have.text", "7");
+    cy.contains("Удалить").click();
+
+    cy.getByData("circle-element")
+      .eq(0)
+      .should("have.attr", "class")
+      .and("include", "changing");
+
+    cy.wait(500);
+
+    cy.getByData("circle-element")
+      .eq(0)
+      .should("have.attr", "class")
+      .and("include", "default")
+      .and("not.contain", "7");
   });
 });
