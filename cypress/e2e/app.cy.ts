@@ -1,14 +1,16 @@
+import { BASE_URL } from "../../src/constants/e2e-tests";
+
 describe("App", () => {
   it("Successfully loads", () => {
-    cy.visit("http://localhost:3000");
+    cy.visit(BASE_URL);
   });
 
   it("Routing works", () => {
-    cy.visit("http://localhost:3000/recursion");
-    cy.visit("http://localhost:3000/fibonacci");
-    cy.visit("http://localhost:3000/sorting");
-    cy.visit("http://localhost:3000/stack");
-    cy.visit("http://localhost:3000/queue");
-    cy.visit("http://localhost:3000/list");
+    cy.visit(`${BASE_URL}/recursion`);
+    cy.visit(`${BASE_URL}/fibonacci`);
+    cy.visit(`${BASE_URL}/sorting`);
+    cy.visit(`${BASE_URL}/stack`);
+    cy.visit(`${BASE_URL}/queue`);
+    cy.visit(`${BASE_URL}/list`);
   });
 });

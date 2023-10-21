@@ -1,15 +1,17 @@
+import { BASE_URL, TEXT_INPUT } from "../../src/constants/e2e-tests";
+
 describe("String Component", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/recursion");
+    cy.visit(`${BASE_URL}/string`);
   });
 
   it("Should disable the button when the input field is empty", () => {
-    cy.getByData("text-input").should("be.empty");
+    cy.getByData(TEXT_INPUT).should("be.empty");
     cy.getByData("button-component").should("be.disabled");
   });
 
   it("Should check the animation steps", () => {
-    cy.getByData("text-input").type("abc");
+    cy.getByData(TEXT_INPUT).type("abc");
     cy.getByData("button-component").click();
 
     cy.wait(1000);

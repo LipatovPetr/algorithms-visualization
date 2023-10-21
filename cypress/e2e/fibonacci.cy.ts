@@ -1,15 +1,17 @@
+import { BASE_URL, TEXT_INPUT } from "../../src/constants/e2e-tests";
+
 describe("Fibonacci Component", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/fibonacci");
+    cy.visit(`${BASE_URL}/fibonacci`);
   });
 
   it("Should disable the button when the input field is empty", () => {
-    cy.getByData("text-input").should("be.empty");
+    cy.getByData(TEXT_INPUT).should("be.empty");
     cy.getByData("button-component").should("be.disabled");
   });
 
   it("Should render fibonacci sequence", () => {
-    cy.getByData("text-input").type("19");
+    cy.getByData(TEXT_INPUT).type("19");
     cy.getByData("button-component").click();
 
     cy.getByData("circle-element").eq(0).should("have.text", "0");
