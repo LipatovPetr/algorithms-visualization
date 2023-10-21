@@ -3,10 +3,12 @@
 exports[`Circle Component Render Circle with CHANGING state 1`] = `
 <div
   class="circle   changing"
+  data-test="circle-element"
   data-testid="circle-element"
 >
   <p
     class="text text_type_circle text_color_input letter"
+    data-test="circle-letter"
   />
 </div>
 `;
@@ -14,10 +16,12 @@ exports[`Circle Component Render Circle with CHANGING state 1`] = `
 exports[`Circle Component Render Circle with DEFAULT state 1`] = `
 <div
   class="circle   default"
+  data-test="circle-element"
   data-testid="circle-element"
 >
   <p
     class="text text_type_circle text_color_input letter"
+    data-test="circle-letter"
   />
 </div>
 `;
@@ -25,10 +29,12 @@ exports[`Circle Component Render Circle with DEFAULT state 1`] = `
 exports[`Circle Component Render Circle with MODIFIED state 1`] = `
 <div
   class="circle   modified"
+  data-test="circle-element"
   data-testid="circle-element"
 >
   <p
     class="text text_type_circle text_color_input letter"
+    data-test="circle-letter"
   />
 </div>
 `;
@@ -36,6 +42,7 @@ exports[`Circle Component Render Circle with MODIFIED state 1`] = `
 exports[`Circle Component Render Circle with head 1`] = `
 <div
   class="text text_type_input text_color_input mb-4 absolute head string"
+  data-test="head"
 >
   head
 </div>
@@ -52,6 +59,7 @@ exports[`Circle Component Render Circle with index 1`] = `
 exports[`Circle Component Render Circle with letters 1`] = `
 <p
   class="text text_type_circle text_color_input letter"
+  data-test="circle-letter"
 >
   qwe
 </p>
@@ -60,10 +68,12 @@ exports[`Circle Component Render Circle with letters 1`] = `
 exports[`Circle Component Render Circle with small class 1`] = `
 <div
   class="circle  small default"
+  data-test="circle-element"
   data-testid="circle-element"
 >
   <p
     class="text text_type_circle text_color_input letter"
+    data-test="circle-letter"
   />
 </div>
 `;
@@ -71,6 +81,7 @@ exports[`Circle Component Render Circle with small class 1`] = `
 exports[`Circle Component Render Circle with tail 1`] = `
 <div
   class="text text_type_input text_color_input mt-4 absolute tail30 string"
+  data-test="tail"
 >
   tail
 </div>
@@ -79,17 +90,21 @@ exports[`Circle Component Render Circle with tail 1`] = `
 exports[`Circle Component Render Circle without props 1`] = `
 <div
   class="content "
+  data-test="circle-component"
   data-testid="circle-component"
 >
   <div
     class="text text_type_input text_color_input mb-4 absolute head element"
+    data-test="head"
   />
   <div
     class="circle   default"
+    data-test="circle-element"
     data-testid="circle-element"
   >
     <p
       class="text text_type_circle text_color_input letter"
+      data-test="circle-letter"
     />
   </div>
   <p
@@ -97,6 +112,7 @@ exports[`Circle Component Render Circle without props 1`] = `
   />
   <div
     class="text text_type_input text_color_input mt-4 absolute tail30 element"
+    data-test="tail"
   />
 </div>
 `;
