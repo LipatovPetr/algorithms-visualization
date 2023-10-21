@@ -101,7 +101,7 @@ describe("Linked-List Component", () => {
     cy.getByData("circle-element").last().should("not.contain", "14");
   });
 
-  it.only("Should add an element by the index", () => {
+  it("Should add an element by the index", () => {
     cy.getByData("text-input").first().type("14");
     cy.getByData("text-input").last().type("1");
 
