@@ -59,4 +59,29 @@ describe("Queue Component", () => {
       .and("include", "default")
       .and("not.contain", "7");
   });
+
+  it("Should clear everything in the queue", () => {
+    cy.getByData("text-input").type("1");
+    cy.get('button[type="submit"]').click();
+
+    cy.wait(500);
+
+    cy.getByData("text-input").type("2");
+    cy.get('button[type="submit"]').click();
+
+    cy.wait(500);
+
+    cy.getByData("text-input").type("3");
+    cy.get('button[type="submit"]').click();
+
+    cy.getByData("circle-element").eq(0).should("have.text", "1");
+    cy.getByData("circle-element").eq(1).should("have.text", "2");
+    cy.getByData("circle-element").eq(2).should("have.text", "3");
+
+    cy.contains("Очистить").click();
+
+    cy.getByData("circle-element").eq(0).should("not.contain", "1");
+    cy.getByData("circle-element").eq(1).should("not.contain", "2");
+    cy.getByData("circle-element").eq(2).should("not.contain", "3");
+  });
 });
