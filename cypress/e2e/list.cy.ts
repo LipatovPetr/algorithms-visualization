@@ -70,7 +70,7 @@ describe("Linked-List Component", () => {
     cy.getByData("circle-element").eq(1).should("have.text", "14");
   });
 
-  it.only("Should remove an element by the index", () => {
+  it("Should remove an element by the index", () => {
     cy.getByData("text-input").first().type("14");
     cy.getByData("text-input").last().type("1");
 
