@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { ElementStates } from "../../types/element-states";
 import { delay } from "../../utils";
+import _ from "lodash";
 
 import {
   stringMappedToCharsWithState,
@@ -52,4 +53,29 @@ export async function reverseString(
 
     await delay(delayValue);
   }
+}
+
+export function createReverseStringSeq(string: string) {
+  let processedString = mapStringToArray(string);
+  let reverseStringSeq: stringMappedToCharsWithState[] = [];
+  const len = processedString.length;
+
+  // add initial state of the string to the sequence
+  reverseStringSeq.push(_.cloneDeep(processedString));
+
+  for (let i = 0; i < len / 2; i++) {
+    // add state with highlighted elements to be swapped to the sequence
+    processedString[i].state = ElementStates.Changing;
+    processedString[len - 1 - i].state = ElementStates.Changing;
+
+    reverseStringSeq.push(_.cloneDeep(processedString));
+
+    // add state with swapped elements and modified state to the sequence
+    swapChars(processedString, i, len - 1 - i);
+    processedString[i].state = ElementStates.Modified;
+    processedString[len - 1 - i].state = ElementStates.Modified;
+
+    reverseStringSeq.push(_.cloneDeep(processedString));
+  }
+  return reverseStringSeq;
 }

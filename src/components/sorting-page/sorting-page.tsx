@@ -1,13 +1,16 @@
-import React, { ChangeEvent, useEffect, useState, MouseEvent } from "react";
+import { ChangeEvent, useEffect, useState, MouseEvent } from "react";
 import styles from "./sorting-page.module.css";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
-import { mapArray } from "../../utils/helpers/sorting.helpers";
+import {
+  addStatestoArrayElement,
+  animateSequence,
+} from "../../utils/helpers/sorting.helpers";
 import { generateRandomArray } from "../../utils";
-import { selectSort, bubbleSort } from "./algorithm";
+import { createSelectSortSeq, createbBubbleSortSeq } from "./algorithms";
 import { elementWithState } from "./Types";
 import { MIN_NUMBER, MAX_NUMBER, MIN_LENGTH, MAX_LENGTH } from "./constants";
 
@@ -19,6 +22,10 @@ export const SortingPage = () => {
   const [sortingOption, setSortingOption] = useState("select");
   const [sortedArray, setSortedArray] = useState<Array<elementWithState>>([]);
 
+  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSortingOption(e.target.value);
+  };
+
   useEffect(function generateArrayOnLoad() {
     const randomArray = generateRandomArray(
       MIN_NUMBER,
@@ -26,13 +33,9 @@ export const SortingPage = () => {
       MIN_LENGTH,
       MAX_LENGTH
     );
-    const mappedArray = mapArray(randomArray);
-    setSortedArray(mappedArray);
+    const arrayWithStates = addStatestoArrayElement(randomArray);
+    setSortedArray(arrayWithStates);
   }, []);
-
-  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSortingOption(e.target.value);
-  };
 
   async function handleSortAcs() {
     setLoadingState((prevState) => ({
@@ -41,10 +44,12 @@ export const SortingPage = () => {
     }));
     switch (sortingOption) {
       case "select":
-        await selectSort(sortedArray, setSortedArray, 100, "asc");
+        const selectSequence = createSelectSortSeq(sortedArray, "asc");
+        await animateSequence(selectSequence, setSortedArray);
         break;
       case "bubble":
-        await bubbleSort(sortedArray, setSortedArray, 100, "asc");
+        const bubbleSequence = createbBubbleSortSeq(sortedArray, "asc");
+        await animateSequence(bubbleSequence, setSortedArray);
         break;
     }
     setLoadingState((prevState) => ({
@@ -61,10 +66,12 @@ export const SortingPage = () => {
 
     switch (sortingOption) {
       case "select":
-        await selectSort(sortedArray, setSortedArray, 100, "desc");
+        const selectSequence = createSelectSortSeq(sortedArray, "desc");
+        await animateSequence(selectSequence, setSortedArray);
         break;
       case "bubble":
-        await bubbleSort(sortedArray, setSortedArray, 100, "desc");
+        const bubbleSequence = createbBubbleSortSeq(sortedArray, "desc");
+        await animateSequence(bubbleSequence, setSortedArray);
         break;
     }
     setLoadingState((prevState) => ({
@@ -80,7 +87,7 @@ export const SortingPage = () => {
       MIN_LENGTH,
       MAX_LENGTH
     );
-    const mappedArray = mapArray(randomArray);
+    const mappedArray = addStatestoArrayElement(randomArray);
     setSortedArray(mappedArray);
   };
 
@@ -129,8 +136,8 @@ export const SortingPage = () => {
       </div>
       <div className={styles.graphContainer}>
         {sortedArray &&
-          sortedArray.map((el) => (
-            <Column index={el.value} state={el.state} key={el.id} />
+          sortedArray.map((el, index) => (
+            <Column index={el.value} state={el.state} key={index} />
           ))}
       </div>
     </SolutionLayout>
