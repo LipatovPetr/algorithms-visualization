@@ -1,24 +1,24 @@
-# Project: Algorithm Visualization
+# Проект: Визуализация алгоритмов
 
-## Description
-This project is a web application I built using React, TypeScript, and React Router, with the primary aim of visualizing various algorithms through animations to facilitate a better understanding of their workings. The project is designed for desktop use only.
+## Описание
+Этот проект - веб-приложение, которое я создал с использованием React, TypeScript и React Router с основной целью визуализации различных алгоритмов через анимации для лучшего понимания их работы. Проект предназначен только для использования на настольных компьютерах.
 
-## Application Link
-[Application Link](https://algorithms-visualization-moj3jkh9g-lipatovpetr.vercel.app)
+## Ссылка на приложение
+[Ссылка на приложение](https://algorithms-visualization-moj3jkh9g-lipatovpetr.vercel.app)
 
-## GitHub Repository Link
-[GitHub Repository Link](https://github.com/LipatovPetr/algorithms-visualization)
+## Ссылка на репозиторий GitHub
+[Ссылка на репозиторий GitHub](https://github.com/LipatovPetr/algorithms-visualization)
 
-## Technology Stack
+## Стек технологий
 - React
 - TypeScript
 - React Router
 
-## Interesting Features
-- I implemented fundamental algorithms like a stack, queue, and linked list using classes.
-- Special attention has been paid to React rendering to create animations that visually represent algorithm behavior based on the given technical specifications.
-- The project incorporates caching of recursive calls within a loop in a sorting method to optimize performance.
-- Functions used in the linked list are well-documented to aid other developers in understanding the code.
-- Throughout the project's development, I followed an iterative approach to thematic commits, resulting in a more organized development history.
+## Интересные особенности
+- Я реализовал основные алгоритмы, такие как стек, очередь и связанный список, используя классы.
+- Особое внимание уделялось рендерингу React для создания анимаций, которые визуально отображают поведение алгоритмов на основе заданных технических спецификаций.
+- В проекте реализовано кэширование рекурсивных вызовов внутри цикла в методе сортировки для оптимизации производительности.
+- Функции, используемые в связанном списке, хорошо документированы, чтобы помочь другим разработчикам понять код.
+- На протяжении разработки проекта я придерживался итеративного подхода к тематическим коммитам, что привело к более организованной истории разработки.
 
-I hope this project proves to be valuable for those interested in algorithm visualization and learning how algorithms work.
+Я надеюсь, что этот проект окажется полезным для тех, кто интересуется визуализацией алгоритмов и изучением их работы.
